@@ -3,3 +3,7 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+Database Building Queries/Data Sample Injection/secrets.env
+*.pyc
+Database Building Queries/Data Sample Injection/t.txt
+Database Building Queries/Data Sample Injection/Data/dataset 1/travel.sqlite
