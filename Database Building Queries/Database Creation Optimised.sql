@@ -7,7 +7,7 @@ USE AIRLINE
 
 CREATE TABLE AIRPORT(
     airport_id VARCHAR(50) NOT NULL ,
-    name_  VARCHAR(25) NOT NULL ,  
+    name_  VARCHAR(100) NOT NULL ,  
     location_ VARCHAR(MAX) NOT NULL ,
     PRIMARY KEY (airport_id)
 );
@@ -43,7 +43,7 @@ create table Cargo(
 
 
 CREATE TABLE ROUTE (
-    ro_id VARCHAR(50) UNIQUE NOT NULL,
+    ro_id VARCHAR(50) NOT NULL,
     start_airport VARCHAR(50) NOT NULL,  -- First airport
     end_airport VARCHAR(50) NOT NULL,  -- Second airport
     distance BIGINT NOT NULL, 
@@ -66,14 +66,14 @@ CREATE TABLE ROUTE (
 
 
 CREATE TABLE FLIGHT (
-    fid   VARCHAR(50) NOT NULL UNIQUE,
+    fid   VARCHAR(50) NOT NULL,
     aircraft_id VARCHAR(50) NOT NULL,
-    depart_time DATETIME NOT NULL,
+    depart_time DATETIMEOFFSET NOT NULL,
     status_ VARCHAR(20) NOT NULL,
     route_id VARCHAR(50) NOT NULL,
-    arrival_time DATETIME NOT NULL,
-    duration INT NOT NULL,
-    aid VARCHAR(50) NOT NULL
+    arrival_time DATETIMEOFFSET NOT NULL,
+    duration INT NOT NULL, --duration of flight in hours not route
+    -- airport_id VARCHAR(50) NOT NULL
     PRIMARY KEY (fid),
     
     FOREIGN KEY (aircraft_id) REFERENCES AIRCRAFT(aid)
