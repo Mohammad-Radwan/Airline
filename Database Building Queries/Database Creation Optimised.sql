@@ -67,15 +67,20 @@ CREATE TABLE ROUTE (
 
 CREATE TABLE FLIGHT (
     fid   VARCHAR(50) NOT NULL UNIQUE,
-    aid VARCHAR(50) NOT NULL,
+    aircraft_id VARCHAR(50) NOT NULL,
     depart_time DATETIME NOT NULL,
     status_ VARCHAR(20) NOT NULL,
     route_id VARCHAR(50) NOT NULL,
     arrival_time DATETIME NOT NULL,
     duration INT NOT NULL,
-    date_ DATE NOT NULL,
+    aid VARCHAR(50) NOT NULL
     PRIMARY KEY (fid),
-    FOREIGN KEY (aid) REFERENCES AIRCRAFT(aid),
+    
+    FOREIGN KEY (aircraft_id) REFERENCES AIRCRAFT(aid)
+        ON DELETE  CASCADE
+        ON UPDATE CASCADE
+    ,
+    
     FOREIGN KEY (route_id) REFERENCES ROUTE(ro_id)
         ON DELETE  CASCADE
         ON UPDATE CASCADE
