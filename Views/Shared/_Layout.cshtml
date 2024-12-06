@@ -20,8 +20,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Home</a>
+                    <li class= "nav-item light-text">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    </li>
+                    <li class= "nav-item">
+                        <a asp-controller="Home" asp-action="ScheduleFlights" class="nav-link">Schedule Flights</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Flights</a>
@@ -37,7 +40,7 @@
                     </li>
                 </ul>
                 <div class="navbar-nav">
-                    <a class="nav-link" href="../Home/login.cshtml">Login</a>
+                    <a asp-controller="Home" asp-action="Login" class="nav-link">Login</a>
                 </div>
             </div>
         </div>
