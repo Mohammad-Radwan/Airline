@@ -23,6 +23,16 @@ public class AdminController : Controller
         return View();
     }
 
+    public IActionResult TrackCargo()
+    {
+        return View();
+    }
+
+    public IActionResult MonitorIncd()
+    {
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
