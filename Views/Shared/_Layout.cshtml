@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - Airline</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/Airline.styles.css" asp-append-version="true"/>
+    <!--link rel="stylesheet" href="~/Airline.styles.css" asp-append-version="true"/-->
 </head>
 <body>
 <header>
@@ -24,6 +24,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="PassengerProfile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Flight" asp-action="Search">Search</a>
                     </li>
                 </ul>
             </div>

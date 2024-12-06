@@ -1,0 +1,43 @@
+﻿@model RefundRequest
+
+<div class="container py-5">
+    <div class="row">
+        
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Refund Request Form</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("SubmitRefund", "Profile", FormMethod.Post))
+                    {
+                        @Html.HiddenFor(m => m.TicketId)
+                        @Html.HiddenFor(m => m.PassengerId)
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Please describe your reason for requesting a refund:</label>
+                            @Html.TextAreaFor(m => m.Complaint, new { @class = "form-control", rows = "5", required = "required" })
+                        </div>
+                        <div class="row">
+
+                            <div class="col-12 mb-4">
+                                <a href="@Url.Action("TicketDetails", "Profile", new { id = Model.TicketId })" class="btn btn-outline-primary">
+                                    <i class="bi bi-arrow-left"></i> cancel
+                                </a>
+                            </div>
+
+                            <div class="col-12 mb-4">
+
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary">Submit Refund Request</button>
+                                </div>
+                                
+                            </div>
+
+                            </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

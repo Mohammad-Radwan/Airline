@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Flight>
+@{
+    ViewData["Title"] = "Flight Search Results";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Available Flights</h2>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Flight Number</th>
+                        <th>Route</th>
+                        <th>Aircraft</th>
+                        <th>Departure</th>
+                        <th>Duration</th>
+                        <th>Base Price</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var flight in Model)
+                    {
+                        <tr>
+                            <td>@flight.FlightNumber</td>
+                            <td>@flight.Route.DepartureAirport - @flight.Route.ArrivalAirport</td>
+                            <td>@flight.AircraftModel</td>
+                            <td>@flight.DepartureTime.ToString("HH:mm")</td>
+                            <td>@flight.Duration.ToString(@"hh\:mm")</td>
+                            <td>$@flight.Route.BasePrice.ToString("N2")</td>
+                            <td>
+                                <a href="@Url.Action("Book", "Flight", new { flightNumber = flight.FlightNumber, departureTime = flight.DepartureTime })" 
+                                   class="btn btn-primary btn-sm">
+                                    Book Now
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

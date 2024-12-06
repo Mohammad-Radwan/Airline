@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Baggage>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Your Baggage Records</h2>
+                <a href="@Url.Action("PassengerProfile", "Profile")" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left"></i> Back to Profile
+                </a>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Baggage Tag</th>
+                            <th>Cargo ID</th>
+                            <th>Weight (kg)</th>
+                            <th>Type</th>
+                            <th>Flight</th>
+                            <th>Check-in Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var baggage in Model)
+                        {
+                            <tr>
+                                <td>@baggage.BaggageTag</td>
+                                <td>@baggage.CargoId</td>
+                                <td>@baggage.Weight</td>
+                                <td>@baggage.Type</td>
+                                <td>@baggage.FlightNumber</td>
+                                <td>@baggage.CheckInDate.ToString("MMM dd, yyyy HH:mm")</td>
+                                <td>
+                                    <span class="badge bg-@(baggage.Status == "Delivered" ? "success" : 
+                                                         baggage.Status == "In Transit" ? "primary" : 
+                                                         baggage.Status == "Lost" ? "danger" : "warning")">
+                                        @baggage.Status
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
