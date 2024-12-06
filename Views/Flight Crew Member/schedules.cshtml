@@ -1,0 +1,124 @@
+﻿@page
+@model Airline.Views.Flight_Crew_Member.schedules
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Schedules - Skyline Airways</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Skyline Airways</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="schedules.html">Flight Schedules</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="routes.html">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="incident.html">Report Incident</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="aircraft.html">Aircraft Status</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="seats.html">Seat Selection</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <h1 class="mb-4">Flight Schedules</h1>
+
+    <!-- Search Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">From</label>
+                    <select class="form-select">
+                        <option selected>All Airports</option>
+                        <option>New York (JFK)</option>
+                        <option>London (LHR)</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">To</label>
+                    <select class="form-select">
+                        <option selected>All Airports</option>
+                        <option>Paris (CDG)</option>
+                        <option>Dubai (DXB)</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-control">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Flight Schedule Table -->
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Flight No.</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>SK101</td>
+                <td>New York (JFK)</td>
+                <td>London (LHR)</td>
+                <td>09:00</td>
+                <td>21:00</td>
+                <td><span class="badge bg-success">On Time</span></td>
+            </tr>
+            <tr>
+                <td>SK102</td>
+                <td>London (LHR)</td>
+                <td>Paris (CDG)</td>
+                <td>10:30</td>
+                <td>11:45</td>
+                <td><span class="badge bg-warning">Delayed</span></td>
+            </tr>
+            <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Footer (same as index.html) -->
+<footer class="bg-dark text-white py-4 mt-5">
+    <!-- Same footer content as index.html -->
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
