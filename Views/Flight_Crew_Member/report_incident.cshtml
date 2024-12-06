@@ -33,7 +33,7 @@
           <a class="nav-link" asp-controller="Flight_Crew_Member" asp-action="report_incident">Report Incident</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" asp-controller="Flight_Crew_Member" asp-action="aircraft_status">Aircraft Status</a>
+          <a class="nav-link" asp-controller="Flight_Crew_Member" asp-action="aircraft_status">Aircraft Status</a>
         </li>
         <li class="nav-item">
           <a class="nav-link"asp-controller="Flight_Crew_Member" asp-action="seat_selection">Seat Selection</a>
@@ -74,32 +74,12 @@
           </select>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label">Severity Level</label>
-          <select class="form-select" required>
-            <option value="">Select severity</option>
-            <option>Low</option>
-            <option>Medium</option>
-            <option>High</option>
-            <option>Critical</option>
-          </select>
-        </div>
-
+       
         <div class="mb-3">
           <label class="form-label">Description</label>
           <textarea class="form-control" rows="5" required></textarea>
         </div>
-
-        <div class="mb-3">
-          <label class="form-label">Upload Evidence (if any)</label>
-          <input type="file" class="form-control" accept="image/*,.pdf">
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Contact Information</label>
-          <input type="email" class="form-control mb-2" placeholder="Email" required>
-          <input type="tel" class="form-control" placeholder="Phone Number" required>
-        </div>
+        
 
         <button type="submit" class="btn btn-primary">Submit Report</button>
       </form>
