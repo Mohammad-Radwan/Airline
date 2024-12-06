@@ -64,7 +64,7 @@ CREATE TABLE ROUTE (
 
 
 CREATE TABLE SEAT(
-    seat_id VARCHAR(50) NOT NULL,
+    seat_id VARCHAR(50)  NOT NULL,
     aircraft_id VARCHAR(50) NOT NULL,
     class VARCHAR(50) NOT NULL,
     is_available BIT DEFAULT 1,
@@ -129,21 +129,8 @@ END;
 GO
 
 
-create table Boarding(
-    Board_ID VARCHAR(50) NOT NULL,
-    Seat_Number VARCHAR(50) NOT NULL,
-    GATE VARCHAR(50) NOT NULL,
-    primary key(Board_ID),
-    FOREIGN KEY (Seat_Number) REFERENCES SEAT(seat_id)
-            ON DELETE  CASCADE
-            ON UPDATE CASCADE
-);
-
-
-
-
 create table PASSENGER(
-    Passport_No VARCHAR(50) NOT NULL,
+    Passport_No VARCHAR(50) NULL,
     name_ VARCHAR(50) NOT NULL , 
     gender CHAR(1) NOT NULL,
     birth_date DATE NOT NULL,
@@ -168,7 +155,6 @@ create table TICKET(
     -- date_ DATETIMEOFFSET NOT NULL, Not necessary 
     seat_id VARCHAR(50) NOT NULL,
     discount VARCHAR(30) NOT NULL,
-    Board_ID VARCHAR(50) NOT NULL,
     is_cancelled BIT DEFAULT 0,
 
     PRIMARY KEY(Ticket_ID),
@@ -177,20 +163,30 @@ create table TICKET(
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
 
-    FOREIGN KEY (Board_ID) REFERENCES Boarding(Board_ID)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE,
 
     FOREIGN KEY (Passport_No) REFERENCES Passenger(Passport_No)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-
-    
     -- FOREIGN KEY (passenger_name) REFERENCES PASSENGER(name_)
     --     ON DELETE NO ACTION
     --     ON UPDATE NO ACTION
 );
 
+
+create table Boarding(
+    Board_ID VARCHAR(50) NOT NULL,
+    Seat_Number VARCHAR(50) NOT NULL,
+    ticket_id VARCHAR(50) NOT NULL,
+    GATE VARCHAR(50) NOT NULL,
+    primary key(Board_ID),
+    FOREIGN KEY (Seat_Number) REFERENCES SEAT(seat_id)
+            ON DELETE  CASCADE
+            ON UPDATE CASCADE
+            ,
+    FOREIGN KEY (ticket_id) REFERENCES TICKET(Ticket_ID)
+            ON DELETE  CASCADE
+            ON UPDATE CASCADE
+);
 
 
 
@@ -244,7 +240,7 @@ Create table Baggage(
             ON UPDATE CASCADE,
     FOREIGN KEY (Passport_No) REFERENCES PASSENGER(Passport_No)
             ON DELETE  NO ACTION
-            ON UPDATE CASCADE
+            ON UPDATE NO ACTION
   
 );
   
