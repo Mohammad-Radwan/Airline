@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Ticket>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Your Ticket Records</h2>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Flight</th>
+                            <th>Date</th>
+                            <th>Class</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ticket in Model)
+                        {
+                            <tr>
+                                <td>@ticket.TicketId</td>
+                                <td>@ticket.Flight.Route.DepartureAirport - @ticket.Flight.Route.ArrivalAirport</td>
+                                <td>@ticket.Flight.DepartureTime.ToString("MMM dd, yyyy")</td>
+                                <td>@ticket.TicketClass</td>
+                                <td>$@ticket.Price.ToString("N2")</td>
+                                <td>
+                                    <span class="badge bg-@(ticket.PaymentStatus == "Paid" ? "success" : "warning")">
+                                        @ticket.PaymentStatus
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("TicketDetails", "Profile", new { id = ticket.TicketId })" 
+                                       class="btn btn-primary btn-sm">
+                                        View Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

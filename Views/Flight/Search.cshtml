@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Search Flights";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Search Flights</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("SearchResults", "Flight", FormMethod.Post))
+                    {
+                        <div class="mb-3">
+                            <label for="searchDate" class="form-label">Select Date</label>
+                            <input type="date" id="searchDate" name="searchDate" class="form-control" required 
+                                   min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">Search Flights</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,117 @@
+﻿@model PassengerProfile
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="~/images/default-profile.jpg" alt="Profile Picture" class="rounded-circle img-fluid" style="width: 150px;">
+                    <h5 class="my-3">@Model.Name</h5>
+                    <div class="d-flex justify-content-center mb-2">
+                        <span class="badge bg-primary">@Model.MembershipTier Member</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h6 class="text-primary mb-4">Travel Records</h6>
+                            <a href="@Url.Action("TicketRecord", "Profile")" class="btn btn-primary w-100 mb-3">
+                                <i class="bi bi-ticket"></i> View Ticket Record
+                            </a>
+                            <a href="@Url.Action("BaggageRecord", "Profile")" class="btn btn-secondary w-100">
+                                <i class="bi bi-luggage"></i> View Baggage Record
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Personal Information</h5>
+                    
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Full Name</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Name</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Email</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Email</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Phone</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.PhoneNumber</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Date of Birth</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.DateOfBirth.ToString("MMMM dd, yyyy")</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Address</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Address</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Travel Documents</h5>
+                    
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Passport Number</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.PassportNumber</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Nationality</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Nationality</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (TempData["BookingMessage"] != null)
+    {
+    <div class="alert alert-info">
+        @TempData["BookingMessage"]
+    </div>
+    }
+</div>

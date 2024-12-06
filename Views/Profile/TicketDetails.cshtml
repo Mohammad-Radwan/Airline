@@ -1,0 +1,77 @@
+﻿@model Ticket
+
+<div class="container py-5">
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Ticket Details</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Flight Information</h5>
+                            <p><strong>Flight Number:</strong> @Model.Flight.FlightNumber</p>
+                            <p><strong>Aircraft:</strong> @Model.Flight.AircraftModel</p>
+                            <p><strong>From:</strong> @Model.Flight.Route.DepartureAirport</p>
+                            <p><strong>To:</strong> @Model.Flight.Route.ArrivalAirport</p>
+                            <p><strong>Duration:</strong> @Model.Flight.Duration.ToString(@"hh\:mm")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Schedule</h5>
+                            <p><strong>Departure:</strong> @Model.Flight.DepartureTime.ToString("MMM dd, yyyy HH:mm")</p>
+                            <p><strong>Arrival:</strong> @Model.Flight.ArrivalTime.ToString("MMM dd, yyyy HH:mm")</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Ticket Information</h5>
+                            <p><strong>Ticket ID:</strong> @Model.TicketId</p>
+                            <p><strong>Class:</strong> @Model.TicketClass</p>
+                            <p><strong>Purchase Date:</strong> @Model.PurchaseDate.ToString("MMM dd, yyyy")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Payment Details</h5>
+                            <p><strong>Status:</strong> <span class="badge bg-@(Model.PaymentStatus == "Paid" ? "success" : "warning")">@Model.PaymentStatus</span></p>
+                            <p><strong>Price:</strong> $@Model.Price.ToString("N2")</p>
+                            <p><strong>Discount:</strong> $@Model.Discount.ToString("N2")</p>
+                            <p><strong>Payment Method:</strong> @Model.PaymentMethod</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h5>Boarding Pass</h5>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p><strong>Seat Number:</strong> @Model.BoardingPass.SeatNumber</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p><strong>Check-in Gate:</strong> @Model.BoardingPass.CheckInGate</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p><strong>Check-out Gate:</strong> @Model.BoardingPass.CheckOutGate</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mb-4">
+            <a href="@Url.Action("TicketRecord", "Profile")" class="btn btn-outline-primary w-100 mb-3">
+                <i class="bi bi-arrow-left"></i> Back to Tickets
+            </a>
+            <a href="@Url.Action("RefundRequest", "Profile", new { id = Model.TicketId })" class="btn btn-danger w-100 mb-3">
+                <i class="bi bi-exclamation-circle"></i> Request Refund
+            </a>
+        </div>
+    </div>
+</div>

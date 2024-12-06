@@ -6,4 +6,27 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Remove="Models\Passanger\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Models\Passanger\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Models\Passanger\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Models\Passanger\**" />
+      <None Include="wwwroot\images\default-profile.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Home\Flight\Book.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Flight\Search.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Flight\SearchResults.cshtml" />
+    </ItemGroup>
+
 </Project>
