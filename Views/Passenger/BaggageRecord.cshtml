@@ -18,8 +18,6 @@
                             <th>Cargo ID</th>
                             <th>Weight (kg)</th>
                             <th>Type</th>
-                            <th>Flight</th>
-                            <th>Check-in Date</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -31,8 +29,6 @@
                                 <td>@baggage.CargoId</td>
                                 <td>@baggage.Weight</td>
                                 <td>@baggage.Type</td>
-                                <td>@baggage.FlightNumber</td>
-                                <td>@baggage.CheckInDate.ToString("MMM dd, yyyy HH:mm")</td>
                                 <td>
                                     <span class="badge bg-@(baggage.Status == "Delivered" ? "success" : 
                                                          baggage.Status == "In Transit" ? "primary" : 

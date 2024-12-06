@@ -11,6 +11,7 @@ public class PassengerController : Controller
             Name = "Jurica Koletić",
             Email = "Jurica.Koletić@email.com",
             PhoneNumber = "+1-234-567-8900",
+            Gender = "Male",
             DateOfBirth = new DateTime(1990, 1, 1),
             PassportNumber = "AB1234567",
             Nationality = "Russia",
