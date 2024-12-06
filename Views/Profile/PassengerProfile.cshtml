@@ -108,4 +108,10 @@
             </div>
         </div>
     </div>
+    @if (TempData["BookingMessage"] != null)
+    {
+    <div class="alert alert-info">
+        @TempData["BookingMessage"]
+    </div>
+    }
 </div>

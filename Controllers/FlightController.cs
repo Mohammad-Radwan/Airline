@@ -83,4 +83,12 @@ public class FlightController : Controller
 
         return View(bookingModel);
     }
+    
+    public IActionResult ConfirmBooking(string flightNumber, string ticketClass)
+    {
+        // Your confirmation logic here...
+
+        TempData["BookingMessage"] = "Your request is pending.";
+        return RedirectToAction("PassengerProfile", "Profile"); // Redirect to passenger profile
+    }
 }
