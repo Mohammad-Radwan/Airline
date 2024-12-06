@@ -1,0 +1,79 @@
+html {
+    font-size: 14px;
+  }
+  
+  @media (min-width: 768px) {
+    html {
+      font-size: 16px;
+    }
+  }
+  
+  .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  }
+  
+  html {
+    position: relative;
+    min-height: 100%;
+  }
+  
+  body {
+    margin-bottom: 60px;
+  }
+  
+  :root {
+    --primary-blue: #0d6efd;
+    --dark-bg: #212529;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --border-gray: #dee2e6;
+    --hover-blue: #0b5ed7;
+  }
+  
+  .hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/1600x900/?airplane,sky') no-repeat center center;
+    background-size: cover;
+    padding: 150px 0;
+    margin-bottom: 30px;
+    color: var(--white);
+  }
+  
+  .navbar-brand i {
+    margin-right: 8px;
+  }
+  
+  .card {
+    transition: transform 0.3s ease;
+    background-color: var(--white);
+    border-color: var(--border-gray);
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .card.shadow {
+    border: none;
+    border-radius: 15px;
+  }
+  
+  .btn-primary {
+    padding: 10px 20px;
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--hover-blue);
+    border-color: var(--hover-blue);
+  }
+  
+  .table {
+    margin-bottom: 0;
+  }
+  
+  .card-header {
+    background-color: var(--primary-blue) !important;
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+  }
