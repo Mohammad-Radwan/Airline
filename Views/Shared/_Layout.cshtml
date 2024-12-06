@@ -10,28 +10,35 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Airline</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between", id= "navbarNav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Passenger" asp-action="PassengerProfile">Profile</a>
+                        <a class="nav-link" asp-area="" asp-controller="Passenger" asp-action="PassengerProfile">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Flight" asp-action="Search">Search</a>
+                        <a class="nav-link" asp-area="" asp-controller="Flight" asp-action="Search">Search</a>
                     </li>
+                    <li class= "nav-item">
+                        <a asp-controller="Admin" asp-action="ScheduleFlights" class="nav-link">Admin Portal</a>
+                    </li>
+                    
                 </ul>
+                <div class="navbar-nav">
+                    <a asp-controller="Home" asp-action="Login" class="nav-link">Login</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -42,9 +49,26 @@
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
+<footer class="bg-dark text-white py-4 mt-5">
     <div class="container">
-        &copy; 2024 - Airline - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="row">
+            <div class="col-md-4">
+                <h5>About SkyWay</h5>
+                <p>Your trusted partner in air travel, providing exceptional service since 2023.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Terms & Conditions</a></li>
+                    <li><a href="#" class="text-white">Privacy Policy</a></li>
+                    <li><a href="#" class="text-white">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Contact Us</h5>
+                <p>Email: info@skyway.com<br>Phone: 1-800-SKY-WAY</p>
+            </div>
+        </div>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
