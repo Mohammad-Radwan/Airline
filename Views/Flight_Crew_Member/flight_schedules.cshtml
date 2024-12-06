@@ -1,5 +1,5 @@
 ﻿@page
-@model Airline.Views.Flight_Crew_Member.schedules
+@model Airline.Views.Flight_Crew_Member.flight_schedules
 
 @{
     Layout = null;
@@ -18,29 +18,26 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Skyline Airways</a>
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">Skyline Airways</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" asp-controller="Flight_Crew_Member" asp-action="flight_schedules"> Flight Schedules</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="schedules.html">Flight Schedules</a>
+                    <a class="nav-link" asp-controller="Flight_Crew_Member" asp-action="routes">Routes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="routes.html">Routes</a>
+                    <a class="nav-link" asp-controller="Flight_Crew_Member" asp-action="report_incident">Report Incident</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="incident.html">Report Incident</a>
+                    <a class="nav-link active" asp-controller="Flight_Crew_Member" asp-action="aircraft_status">Aircraft Status</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="aircraft.html">Aircraft Status</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="seats.html">Seat Selection</a>
+                    <a class="nav-link"asp-controller="Flight_Crew_Member" asp-action="seat_selection">Seat Selection</a>
                 </li>
             </ul>
         </div>

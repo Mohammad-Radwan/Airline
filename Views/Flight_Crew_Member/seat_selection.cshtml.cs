@@ -2,7 +2,7 @@
 
 namespace Airline.Views.Flight_Crew_Member;
 
-public class aircraft : PageModel
+public class seat_selection : PageModel
 {
     public void OnGet()
     {

@@ -2,7 +2,7 @@
 
 namespace Airline.Views.Flight_Crew_Member;
 
-public class incident : PageModel
+public class routes : PageModel
 {
     public void OnGet()
     {
