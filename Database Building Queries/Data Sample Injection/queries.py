@@ -47,8 +47,6 @@ def insert_air_craft_data():
     conn.close()
 
 
-
-
 def insert_airports_data():
     cursor, conn = MountingTargettedServer()
     df = CreateDataFrame("airports_data", MountingScrappingServer())
@@ -57,7 +55,7 @@ def insert_airports_data():
     df["airport_name"] = df["airport_name"].apply(json.loads)
     df["coordinates"] = df["coordinates"].astype(str)
     print(df.info())
-    for i in range(df.shape[0]):
+    for i in range(len(df)):
         aic = df["airport_code"][i]
         name = df["airport_name"][i]["en"]
         location = df["coordinates"][i]
@@ -71,11 +69,10 @@ def insert_airports_data():
             cursor=cursor,
             conn=conn,
         )
+        print(f"counter {i}")
 
     cursor.close()  # Ensure the cursor is closed
     conn.close()
-
-
 
 
 def building_routes_table():
@@ -85,7 +82,7 @@ def building_routes_table():
     print(df["coordinates"][0])
     df["airport_code"] = df["airport_code"].astype(str)
     for i in range(df.shape[0]):
-        for j in range(df.shape[0] - 1):
+        for j in range(len(df)):
             lon1, lat1 = ast.literal_eval(df["coordinates"][i])
             lon2, lat2 = ast.literal_eval(df["coordinates"][j])
 
@@ -93,11 +90,11 @@ def building_routes_table():
             lon1 = math.radians(float(lon1))
             lat2 = math.radians(float(lat2))
             lon2 = math.radians(float(lon2))
-                    # Skip if airports do not exist in the AIRPORT table
+            # Skip if airports do not exist in the AIRPORT table
 
             delta_lat = lat2 - lat1
             delta_lon = lon2 - lon1
-            
+
             # Haversine formula
             a = (
                 math.sin(delta_lat / 2) ** 2
@@ -111,9 +108,8 @@ def building_routes_table():
             # in kilometers
             distance = radius * c
 
-            id = df["airport_code"][i] +"_"+ df["airport_code"][j]
-            
-            
+            id = df["airport_code"][i] + "_" + df["airport_code"][j]
+
             # fixed_overhead = Time for takeoff, landing, and waiting
             # duration = fixed_overhead + (distance / speed)
 
@@ -133,3 +129,67 @@ def building_routes_table():
     conn.close()
 
 
+def building_flights_table():
+    cursor, conn = MountingTargettedServer()
+    df = CreateDataFrame("flights", MountingScrappingServer())
+    df["fid"] = df["flight_no"] + df["flight_id"].astype(str)
+    df["scheduled_departure"] = pd.to_datetime(df["scheduled_departure"])
+    df["scheduled_arrival"] = pd.to_datetime(df["scheduled_arrival"])
+    df["route_id"] = df["departure_airport"] + "_" + df["arrival_airport"]
+    df["duration"] = df["scheduled_arrival"] - df["scheduled_departure"]
+    df["duration_hours"] = df["duration"].apply(
+        lambda x: math.ceil(x.total_seconds() / 3600)
+    )
+    for i in range(df.shape[0]):
+        # df.loc[i, "scheduled_departure"] = pd.to_datetime(df["scheduled_departure"][i])
+        # print(f"""{df["flight_id"][i]} ,
+        #     {df["flight_no"][i]} ,
+        #     {df["scheduled_departure"][i]} ,
+        #     {df["departure_airport"][i]}
+        #     """)
+        sql_query = f"""
+            INSERT INTO FLIGHT (fid, depart_time , arrival_time , status_ , route_id , duration , aircraft_id)
+            VALUES  ('{df["fid"][i]}',
+            '{df["scheduled_departure"][i]}', 
+            '{df["scheduled_arrival"][i]}',
+            '{df["status"][i]}',
+            '{df["route_id"][i]}' 
+            ,{df["duration_hours"][i]} 
+            ,'{df["aircraft_code"][i]}')
+            """
+
+        MakeASqlServerQuery(
+            SqlQuery=sql_query,
+            cursor=cursor,
+            conn=conn,
+        )
+    cursor.close()  # Ensure the cursor is closed
+    conn.close()
+
+
+
+def building_seats_table():
+    cursor , conn = MountingTargettedServer()
+    df = CreateDataFrame("seats", MountingScrappingServer())
+    df["si"] = df["aircraft_code"] +'_'+ df["seat_no"]
+    for i in range(df.shape[0]):
+        sql_query = f"""
+            INSERT INTO SEAT (aircraft_id, seat_id , class)
+            VALUES  ('{df["aircraft_code"][i]}',
+            '{df["si"][i]}', 
+            '{df["fare_conditions"][i]}'
+            )
+            """
+        MakeASqlServerQuery(
+            SqlQuery=sql_query,
+            cursor=cursor,
+            conn=conn,
+        )
+    cursor.close()  # Ensure the cursor is closed
+    conn.close()
+
+
+
+# def building_tickets_table():
+#     cursor , conn = MountingTargettedServer()
+#     df = CreateDataFrame("tickets", MountingScrappingServer())

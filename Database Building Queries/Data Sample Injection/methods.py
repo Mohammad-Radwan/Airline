@@ -21,9 +21,9 @@ def DownloadInjectionData():
 def MountingScrappingServer():
     load_dotenv(dotenv_path=r"Data Sample Injection\secrets.env")
     path = os.getenv("sql_lite")
-    # path = r"sqlite:///E:\Coding\SQL\Project\Data Sample Injection\Data\dataset 1\travel.sqlite"
     my_conn = create_engine(path)
     my_conn = my_conn.connect()
+    print(f"Scrapping Server Connection Established -> {my_conn}")
     return my_conn
 
 
