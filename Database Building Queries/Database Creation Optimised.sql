@@ -63,7 +63,19 @@ CREATE TABLE ROUTE (
 );
 
 
-
+CREATE TABLE SEAT(
+    seat_id VARCHAR(50) NOT NULL,
+    aircraft_id VARCHAR(50) NOT NULL,
+    class VARCHAR(50) NOT NULL,
+    is_available BIT DEFAULT 1,
+    PRIMARY KEY (seat_id),
+    FOREIGN KEY (aircraft_id) REFERENCES AIRCRAFT(aid)
+            ON DELETE  CASCADE
+            ON UPDATE CASCADE,
+    -- FOREIGN KEY (Board_ID) REFERENCES Boarding(Board_ID)
+    --         ON DELETE  CASCADE
+    --         ON UPDATE CASCADE
+);
 
 CREATE TABLE FLIGHT (
     fid   VARCHAR(50) NOT NULL,
@@ -84,24 +96,55 @@ CREATE TABLE FLIGHT (
     FOREIGN KEY (route_id) REFERENCES ROUTE(ro_id)
         ON DELETE  CASCADE
         ON UPDATE CASCADE
+        
 );
 
+GO --Batch creation
+CREATE TRIGGER DeleteTicketsAfterFlightDeletion
+                    ON FLIGHT
+                    AFTER DELETE
+                    AS
+                    BEGIN
+                        UPDATE TICKET
+                        SET is_cancelled = 1
+                        WHERE Flight_id IN (SELECT fid FROM deleted);
+                    END;
+GO
 
+
+GO
+CREATE TRIGGER UpdateTicketFlightId
+ON FLIGHT
+AFTER UPDATE
+AS
+BEGIN
+    -- Update the Flight_id in the TICKET table where Flight_id matches the old value
+    UPDATE TICKET
+    SET Flight_id = i.fid  -- Use the new Flight_id from the inserted table
+    FROM inserted i
+    JOIN deleted d ON i.fid = d.fid  -- Match old and new Flight_id
+    WHERE TICKET.Flight_id = d.fid;  -- Update the tickets where the old Flight_id matches
+END;
+
+GO
 
 
 create table Boarding(
-    Board_ID VARCHAR(50) NOT NULL UNIQUE,
-    Seat_Number INT NOT NULL,
+    Board_ID VARCHAR(50) NOT NULL,
+    Seat_Number VARCHAR(50) NOT NULL,
     GATE VARCHAR(50) NOT NULL,
-    primary key(Board_ID)
+    primary key(Board_ID),
+    FOREIGN KEY (Seat_Number) REFERENCES SEAT(seat_id)
+            ON DELETE  CASCADE
+            ON UPDATE CASCADE
 );
 
 
 
 
 create table PASSENGER(
-    Passport_No VARCHAR(50) NOT NULL UNIQUE,
-    Name VARCHAR(25) NOT NULL , 
+    Passport_No VARCHAR(50) NOT NULL,
+    name_ VARCHAR(50) NOT NULL , 
     gender CHAR(1) NOT NULL,
     birth_date DATE NOT NULL,
     contact_info VARCHAR(50) NOT NULL,
@@ -115,28 +158,37 @@ create table PASSENGER(
 
 
 create table TICKET(
-    Ticket_ID VARCHAR(50) UNIQUE NOT NULL,
+    Ticket_ID VARCHAR(50) NOT NULL,
     Passport_No VARCHAR(50) NOT NULL,
     Class VARCHAR(50) NOT NULL,
     Pay_Status VARCHAR(10) NOT NULL,
-    Flight_id VARCHAR(50) NOT NULL UNIQUE,
-    Passenger VARCHAR(50) NOT NULL,
+    Flight_id VARCHAR(50) NOT NULL,
+    -- passenger_name VARCHAR(50) NOT NULL, --Not necessary
     Payment_method VARCHAR(30) NOT NULL,
-    date_ DATE NOT NULL,
+    -- date_ DATETIMEOFFSET NOT NULL, Not necessary 
+    seat_id VARCHAR(50) NOT NULL,
     discount VARCHAR(30) NOT NULL,
-    Board_ID VARCHAR(50) NOT NULL UNIQUE,
-    PRIMARY KEY(Ticket_ID),
-    FOREIGN KEY (Flight_id) REFERENCES FLIGHT(fid)
-            ON DELETE  CASCADE
-            ON UPDATE CASCADE,
-    FOREIGN KEY (Board_ID) REFERENCES Boarding(Board_ID)
-            ON DELETE  CASCADE
-            ON UPDATE CASCADE
-    ,
-    FOREIGN KEY (Passport_No) REFERENCES Passenger(Passport_No)
-            ON DELETE  CASCADE
-            ON UPDATE CASCADE,
+    Board_ID VARCHAR(50) NOT NULL,
+    is_cancelled BIT DEFAULT 0,
 
+    PRIMARY KEY(Ticket_ID),
+
+    FOREIGN KEY (Flight_id) REFERENCES FLIGHT(fid)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+
+    FOREIGN KEY (Board_ID) REFERENCES Boarding(Board_ID)
+        ON DELETE NO ACTION
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (Passport_No) REFERENCES Passenger(Passport_No)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    
+    -- FOREIGN KEY (passenger_name) REFERENCES PASSENGER(name_)
+    --     ON DELETE NO ACTION
+    --     ON UPDATE NO ACTION
 );
 
 
@@ -179,19 +231,19 @@ CREATE TABLE WORK(
 Create table Baggage(
     TAG VARCHAR(50) NOT NULL UNIQUE,
     Cargo_ID VARCHAR(50) NOT NULL,
-    Weight Decimal(5 , 3) NOT NULL,
-    Type VARCHAR(30) NOT NULL,
+    Weight_ Decimal(5 , 3) NOT NULL,
+    Type_ VARCHAR(30) NOT NULL,
     Board_No VARCHAR(50) NOT NULL UNIQUE,
     Passport_No VARCHAR(50) NOT NULL,
     primary key (TAG),
     FOREIGN KEY (Cargo_ID) REFERENCES Cargo(Cargo_ID) --Refrecing our composite primarykey
-            ON DELETE  CASCADE
-            ON UPDATE CASCADE,
+            ON DELETE  NO ACTION
+            ON UPDATE NO ACTION,
     FOREIGN KEY (Board_No) REFERENCES Boarding(Board_ID)
-            ON DELETE  CASCADE
+            ON DELETE  NO ACTION
             ON UPDATE CASCADE,
     FOREIGN KEY (Passport_No) REFERENCES PASSENGER(Passport_No)
-            ON DELETE  CASCADE
+            ON DELETE  NO ACTION
             ON UPDATE CASCADE
   
 );
@@ -275,3 +327,6 @@ create table Lost_and_Found(
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+
+
