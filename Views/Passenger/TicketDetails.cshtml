@@ -66,10 +66,10 @@
         </div>
 
         <div class="col-12 mb-4">
-            <a href="@Url.Action("TicketRecord", "Profile")" class="btn btn-outline-primary w-100 mb-3">
+            <a href="@Url.Action("TicketRecord", "Passenger")" class="btn btn-outline-primary w-100 mb-3">
                 <i class="bi bi-arrow-left"></i> Back to Tickets
             </a>
-            <a href="@Url.Action("RefundRequest", "Profile", new { id = Model.TicketId })" class="btn btn-danger w-100 mb-3">
+            <a href="@Url.Action("RefundRequest", "Passenger", new { id = Model.TicketId })" class="btn btn-danger w-100 mb-3">
                 <i class="bi bi-exclamation-circle"></i> Request Refund
             </a>
         </div>

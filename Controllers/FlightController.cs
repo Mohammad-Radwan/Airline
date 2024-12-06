@@ -89,6 +89,6 @@ public class FlightController : Controller
         // Your confirmation logic here...
 
         TempData["BookingMessage"] = "Your request is pending.";
-        return RedirectToAction("PassengerProfile", "Profile"); // Redirect to passenger profile
+        return RedirectToAction("PassengerProfile", "Passenger"); // Redirect to passenger profile
     }
 }

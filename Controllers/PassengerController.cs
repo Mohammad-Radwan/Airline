@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-public class ProfileController : Controller
+public class PassengerController : Controller
 {
     public IActionResult PassengerProfile()
     {
