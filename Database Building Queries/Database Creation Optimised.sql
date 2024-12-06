@@ -9,6 +9,7 @@ CREATE TABLE AIRPORT(
     airport_id VARCHAR(50) NOT NULL ,
     name_  VARCHAR(100) NOT NULL ,  
     location_ VARCHAR(MAX) NOT NULL ,
+    location_name VARCHAR(MAX) NOT NULL ,
     PRIMARY KEY (airport_id)
 );
 
@@ -130,7 +131,7 @@ GO
 
 
 create table PASSENGER(
-    Passport_No VARCHAR(50) NULL,
+    Passport_No VARCHAR(50) NOT NULL,
     name_ VARCHAR(50) NOT NULL , 
     gender CHAR(1) NOT NULL,
     birth_date DATE NOT NULL,
