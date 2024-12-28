@@ -7,7 +7,7 @@ public class flight_schedules
 {
     public List<object> GetAirports()
     {
-        return MakeCommandWithReturn("SELECT name_; FROM AIRPORT;" 
+        return MakeCommandWithReturn("SELECT name_ FROM AIRPORT;" 
             , GetConnectionObject()
             , null
             ,"");
