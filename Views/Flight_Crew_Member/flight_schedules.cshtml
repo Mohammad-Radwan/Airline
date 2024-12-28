@@ -2,7 +2,7 @@
 @model Airline.Views.Flight_Crew_Member.flight_schedules
 
 @{
-    Layout = null;
+    Layout = "_Layout";
 }
 
 
@@ -47,29 +47,49 @@
 <div class="container py-4">
     <h1 class="mb-4">Flight Schedules</h1>
 
+    @if (ViewData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewData["Error"]
+        </div>
+    }
+
     <!-- Search Filters -->
     <div class="card mb-4">
         <div class="card-body">
-            <form class="row g-3">
+            <form id="scheduleSearchForm" class="row g-3">
                 <div class="col-md-4">
                     <label class="form-label">From</label>
-                    <select class="form-select">
-                        <option selected>All Airports</option>
-                        <option>New York (JFK)</option>
-                        <option>London (LHR)</option>
+                    <select class="form-select" id="fromAirport" name="fromAirport" required>
+                        <option value="">Select Airport</option>
+                        @if (Model.Airports != null && Model.Airports.Any())
+                        {
+                            @foreach (var airport in Model.Airports)
+                            {
+                                <option value="@airport">@airport</option>
+                            }
+                        }
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">To</label>
-                    <select class="form-select">
-                        <option selected>All Airports</option>
-                        <option>Paris (CDG)</option>
-                        <option>Dubai (DXB)</option>
+                    <select class="form-select" id="toAirport" name="toAirport" required>
+                        <option value="">Select Airport</option>
+                        @if (Model.Airports != null && Model.Airports.Any())
+                        {
+                            @foreach (var airport in Model.Airports)
+                            {
+                                <option value="@airport">@airport</option>
+                            }
+                        }
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Date</label>
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" id="flightDate" name="date" required>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Search Flights</button>
                 </div>
             </form>
         </div>
@@ -88,28 +108,12 @@
                 <th>Status</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>SK101</td>
-                <td>New York (JFK)</td>
-                <td>London (LHR)</td>
-                <td>09:00</td>
-                <td>21:00</td>
-                <td><span class="badge bg-success">On Time</span></td>
-            </tr>
-            <tr>
-                <td>SK102</td>
-                <td>London (LHR)</td>
-                <td>Paris (CDG)</td>
-                <td>10:30</td>
-                <td>11:45</td>
-                <td><span class="badge bg-warning">Delayed</span></td>
-            </tr>
-            <!-- Add more rows as needed -->
+            <tbody id="scheduleTableBody">
             </tbody>
         </table>
     </div>
 </div>
+
 
 <!-- Footer (same as index.html) -->
 <footer class="bg-dark text-white py-4 mt-5">

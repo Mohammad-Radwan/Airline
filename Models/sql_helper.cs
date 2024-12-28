@@ -12,7 +12,11 @@ public static class sql_helper
             .Build();
     
         //var object of type SqlConnection
+        // string conn_str = "Server=YOUSSEF_MOHAMAD\\MYMSSQLSERVER;Database=AIRLINE;Trusted_Connection=True;TrustServerCertificate=True;";
         SqlConnection conn = new SqlConnection(configuration.GetSection(ConnStrKey).Value); 
+        // SqlConnection conn = new SqlConnection(conn_str); 
+
+        Console.WriteLine($"Connection Object Created ==================>>>>>>>>>>>>>>>{conn}");
         return conn;
     }
 
