@@ -4,7 +4,6 @@ public class PassengerController : Controller
 {
     public IActionResult PassengerProfile()
     {
-        // This is a sample data. In real application, you would fetch this from your database
         var profile = new PassengerProfile
         {
             PassengerId = "P123456",
@@ -25,7 +24,6 @@ public class PassengerController : Controller
 
     public IActionResult TicketRecord()
     {
-        // Sample data - in a real application, this would come from a database
         var tickets = new List<Ticket>
         {
             new Ticket
@@ -97,7 +95,6 @@ public class PassengerController : Controller
             },
             
             
-            // Add more sample tickets as needed
         };
 
         return View(tickets);
@@ -105,7 +102,6 @@ public class PassengerController : Controller
 
     public IActionResult TicketDetails(string id)
     {
-        // Sample data - in a real application, this would come from a database
         var ticket = new Ticket
         {
             TicketId = id,
@@ -148,29 +144,25 @@ public class PassengerController : Controller
         var refundRequest = new RefundRequest
         {
             TicketId = id,
-            PassengerId = "P123456", // In a real app, this would come from the logged-in user
+            PassengerId = "P123456", 
             RequestDate = DateTime.Now
         };
 
         return View(refundRequest);
     }
 
-    [HttpPost]
+  
     public IActionResult SubmitRefund(RefundRequest request)
     {
-        // In a real application, save the refund request to the database
-        
-        // Add a success message to TempData
         TempData["SuccessMessage"] = "Your refund request has been recorded. We will inform you of any updates.";
         
-        // Redirect back to the ticket details page
         return RedirectToAction("TicketDetails", new { id = request.TicketId });
     }
 
     
     public IActionResult BaggageRecord()
     {
-        // Sample data - in a real application, this would come from a database
+
         var baggageList = new List<Baggage>
         {
             new Baggage

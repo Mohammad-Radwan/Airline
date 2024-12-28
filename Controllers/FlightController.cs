@@ -13,7 +13,6 @@ public class FlightController : Controller
     [HttpPost]
     public IActionResult SearchResults(DateTime searchDate)
     {
-        // Sample data - in a real application, this would come from a database
         var flights = new List<Flight>
         {
             new Flight
@@ -53,7 +52,6 @@ public class FlightController : Controller
 
     public IActionResult Book(string flightNumber, DateTime departureTime)
     {
-        // In a real application, you would fetch the flight from a database
         var flight = new Flight
         {
             FlightNumber = flightNumber,
@@ -86,7 +84,6 @@ public class FlightController : Controller
     
     public IActionResult ConfirmBooking(string flightNumber, string ticketClass)
     {
-        // Your confirmation logic here...
 
         TempData["BookingMessage"] = "Your request is pending.";
         return RedirectToAction("PassengerProfile", "Passenger"); // Redirect to passenger profile
