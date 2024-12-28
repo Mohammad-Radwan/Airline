@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebApplication1.Models;
 using System.Collections.Generic;
+using Microsoft.Identity.Client.Region;
 
 namespace WebApplication1.Pages
 {
@@ -34,17 +35,20 @@ namespace WebApplication1.Pages
             }
         }
 
-        // public IActionResult OnGetFlightSchedules(string fromAirport, string toAirport, DateTimeOffset date)
-        // {
-        //     try
-        //     {
-        //         var schedules = _flightSchedulesModel.GetFlightSchedules(fromAirport, toAirport, date);
-        //         return new JsonResult(schedules);
-        //     }
-        //     catch
-        //     {
-        //         return new JsonResult(new { error = "Failed to fetch flight schedules" });
-        //     }
-        // }
+        public IActionResult OnGetFlightSchedules(string fromAirport, string toAirport, DateOnly flightDate , TimeOnly flightTime , TimeSpan utcOffset)
+        {
+            try
+            {
+                var schedules = _flightSchedulesModel.GetFlightSchedules(
+                    fromAirport, toAirport,
+                    new DateTimeOffset(flightDate.Year, flightDate.Month, flightDate.Day, flightTime.Hour, flightTime.Minute, flightTime.Second, utcOffset)
+                    );
+                return new JsonResult(schedules);
+            }
+            catch
+            {
+                return new JsonResult(new { error = "Failed to fetch flight schedules" });
+            }
+        }
     }
 }

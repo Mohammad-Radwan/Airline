@@ -89,9 +89,65 @@
                     <label class="form-label">Date</label>
                     <input type="date" class="form-control" id="flightDate" name="date" required>
                 </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Search Flights</button>
+
+                <div class="col-md-4">
+                    <label class="form-label">Time (UTC)</label>
+                    <input type="time" class="form-control" id="flightTime" name="time" required>
                 </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">UTC Offset</label>
+                    <select class="form-control" id="utcOffset" name="utcOffset" required>
+                        <option value="-12:00">UTC -12:00</option>
+                        <option value="-11:00">UTC -11:00</option>
+                        <option value="-10:00">UTC -10:00</option>
+                        <option value="-09:00">UTC -09:00</option>
+                        <option value="-08:00">UTC -08:00</option>
+                        <option value="-07:00">UTC -07:00</option>
+                        <option value="-06:00">UTC -06:00</option>
+                        <option value="-05:00">UTC -05:00</option>
+                        <option value="-04:00">UTC -04:00</option>
+                        <option value="-03:00">UTC -03:00</option>
+                        <option value="-02:00">UTC -02:00</option>
+                        <option value="-01:00">UTC -01:00</option>
+                        <option value="00:00">UTC ±00:00</option> <!-- Default is UTC -->
+                        <option value="01:00">UTC +01:00</option>
+                        <option value="02:00">UTC +02:00</option>
+                        <option value="03:00">UTC +03:00</option>
+                        <option value="04:00">UTC +04:00</option>
+                        <option value="05:00">UTC +05:00</option>
+                        <option value="06:00">UTC +06:00</option>
+                        <option value="07:00">UTC +07:00</option>
+                        <option value="08:00">UTC +08:00</option>
+                        <option value="09:00">UTC +09:00</option>
+                        <option value="10:00">UTC +10:00</option>
+                        <option value="11:00">UTC +11:00</option>
+                        <option value="12:00">UTC +12:00</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" onclick="searchFlights()">Search Flights</button>
+                </div>
+                <script>
+                    function searchFlights() {
+                        const fromAirport = document.getElementById('fromAirport').value;
+                        const toAirport = document.getElementById('toAirport').value;
+                        const flightDate = document.getElementById('flightDate').value;
+                        const flightTime = document.getElementById('flightTime').value;
+                        const utcOffset = document.getElementById('utcOffset').value;
+
+                        fetch(`/FlightSchedules?handler=FlightSchedules&fromAirport=${fromAirport}&toAirport=${toAirport}&flightDate=${flightDate}&flightTime=${flightTime}&utcOffset=${utcOffset}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                // Handle the response data
+                                console.log(data);
+                            })
+                            .catch(error => {
+                                console.error('Error fetching flight schedules:', error);
+                            });
+                    }
+                </script>
             </form>
         </div>
     </div>
