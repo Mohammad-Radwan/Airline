@@ -27,23 +27,35 @@ public class SeeAmenitiesModel : PageModel
                 Content = reader[1].ToString()
             });
         }
-        Query = "SELECT fid, CAST(depart_time AS TIME), Supplier_ID, content FROM (Supply JOIN FLIGHT ON Flight_ID= fid) WHERE CAST(depart_time AS DATE) = @currentD;";
-        SqlCommand cmd2 = new SqlCommand(Query, con);
+        con.Close();
+        Query = @"
+            SELECT fid, 
+                   CAST(depart_time AS TIME) AS depart_time, 
+                   Supply.Supplier_ID, 
+                   Content 
+            FROM (Supply 
+            JOIN FLIGHT ON FLIGHT.fid = Supply.Flight_ID )
+            JOIN supplier ON supplier.Supplier_ID = Supply.Supplier_ID 
+            WHERE CAST(depart_time AS DATE) = @currentD;";
+
+        SqlConnection con2 = new SqlConnection(conString);
+        con2.Open();
+        SqlCommand cmd2 = new SqlCommand(Query, con2);
         cmd2.Parameters.Add(new SqlParameter("@currentD", SqlDbType.Date) { Value = DateTime.Now.Date });
-        
-        reader = cmd2.ExecuteReader();
-        while (reader.Read())
+
+        SqlDataReader reader2 = cmd2.ExecuteReader();
+        while (reader2.Read())
         {
-            string f = reader[0].ToString().Substring(0, 3);
-            string t = reader[0].ToString().Substring(3, 3);
+            string f = reader2[0].ToString().Substring(0, 3);
+            string t = reader2[0].ToString().Substring(3, 3);
 
             Suplies.Add(new Supply {
                 FlightID = f+ " -> " + t,
-                DepTime = reader.GetFieldValue<DateTimeOffset>(1).TimeOfDay.ToString(),
-                SliersID = reader [2].ToString(),
-                Content = reader[3].ToString()
+                DepTime = reader2.GetFieldValue<TimeSpan>(1).ToString(),
+                SliersID = reader2 [2].ToString(),
+                Content = reader2[3].ToString()
             });
         }
-        con.Close();
+        con2.Close();
     }
 }
