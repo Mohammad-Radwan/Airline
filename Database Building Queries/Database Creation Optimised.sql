@@ -137,6 +137,8 @@ create table PASSENGER(
     birth_date DATE NOT NULL,
     contact_info VARCHAR(50) NOT NULL,
     nationality VARCHAR(25) NOT NULL , 
+    username_ID VARCHAR(50) NOT NULL UNIQUE,
+    Pass_word  VARCHAR(50) NOT NULL,
     primary key (Passport_No)
 );
 
@@ -203,6 +205,8 @@ CREATE TABLE EMPLOYEE(
     gender CHAR(1) NOT NULL,
     nationality VARCHAR(25) NOT NULL,
     salary INT NOT NULL,
+    username_ID VARCHAR(50) NOT NULL UNIQUE,
+    Pass_word  VARCHAR(50) NOT NULL,
     PRIMARY KEY (emp_id)
 );
 
