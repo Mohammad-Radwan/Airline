@@ -102,15 +102,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (int i=0;i<5;i++)
+                                @if(Model.Suplies != null && Model.Suplies.Any())
+                                {@for (int i=0;i<Model.Suplies.Count;i++)
                                 {
                                     <tr>
-                                        <td>JHD -> GFD</td>
-                                        <td>3:40</td>
-                                        <td>Sup00"@i"</td>
-                                        <td>cleaning services</td>
+                                        <td>@Model.Suplies[i].FlightID</td>
+                                        <td>@Model.Suplies[i].DepTime</td>
+                                        <td>@Model.Suplies[i].SliersID</td>
+                                        <td>@Model.Suplies[i].Content</td>
                                     </tr>
                                 }
+                            }
                             </tbody>
                         </table>
                     </div>
