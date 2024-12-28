@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Airline.WebApplication1.WebApplication1.Pages;
 using Airline.WebApplication1.WebApplication1.Pages;
 using System.Data.SqlClient;
-// using Microsoft.Data.SqlClient;
 
 public class SeeAmenitiesModel : PageModel
 {
