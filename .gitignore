@@ -17,4 +17,5 @@ Airline.csproj
 *.csproj
 *.csproj
 Airline.csproj
+secret.json
 *.user
