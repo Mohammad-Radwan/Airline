@@ -24,8 +24,8 @@ public class ScheduleFlightsModel : PageModel
 
     // }
     
-    // public void OnGet()
-    // {
+    public void OnGet()
+    {
     //     flights = new List<FlightA>();
     //     searchDate = DateTime.Now;
     //     crewSSN = "XXXXXX";
@@ -64,5 +64,5 @@ public class ScheduleFlightsModel : PageModel
     //         con.Close();
     //         Console.ReadKey();
     //     }
-    // }
+    }
 }
