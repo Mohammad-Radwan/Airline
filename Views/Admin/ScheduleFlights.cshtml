@@ -1,7 +1,7 @@
 @page
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
-@model ScheduleFlightsModel
-@{ViewBag.Title = "Schedule Flights";}
+@model Airline.Views.ScheduleFlightsModel
+@* @{ViewBag.Title = "Schedule Flights";} *@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,14 +44,14 @@
     </header>
     <form method = "post">
         <div class="mt-5 container w-50">
-            <form>
+            <div>
                 <label for="searchDate" class="form-label display-5">Select Date</label>
-                <input type="date" id="searchDate" name="searchDate" class="form-control" required asp-for="searchDate"
-                       min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
+                @* <input type="date" id="searchDate" name="searchDate" class="form-control" asp-for="searchDate" *@
+                       @* min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")"/> *@
                 <div class="text-end mt-3">
                     <button type="submit" value="date" name="Action" class="btn btn-primary">Search Flights</button>
                 </div>
-            </form>
+            </div>
         </div>
 
         <div class = "container">
@@ -64,8 +64,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                @if(Model.flights != null Model.flights.Any()){}
-                @for(int i=0; i<flights.length; i++){
+                @if(Model.flights != null && Model.flights.Any()){}
+                @for(int i=0; i<Model.flights.Count; i++){
                     <tr class = "active">
                         <th>@(i+1)</th> <th>@Model.flights[i].Route</th>
                         <th> @Model.flights[i].DepartureTime </th> 
@@ -73,18 +73,18 @@
                         <th>
                             <form class = "form-group form-horizontal">
                                 <div class = "form-group mb-3 row">
-                                    <div class="col"> <input class="form-control" type="time" placeholder="New Time" id="new_time" name="new_time" asp-for="new_time"></div>
+                                    @* <div class="col"> <input class="form-control" type="time" placeholder="New Time" id="new_time" name="new_time" asp-for="new_time"></div> *@
                                     <div class="col"><input class ="btn btn-light" type="submit" value="Schedule" name="Action"></div>
                                 </div>
                             </form>
                         </th>
                         <th>
-                            <form class = "form-group form-horizontal">
+                            <div class = "form-group form-horizontal">
                                 <div class = "form-group mb-3 row">
-                                    <div class="col"> <input class="form-control" type="text" asp-for="crewSSN" placeholder="Crew SSN" id="crewSSN" name="crewSSN"></div>
+                                    @* <div class="col"> <input class="form-control" type="text" asp-for="crewSSN" placeholder="Crew SSN" id="crewSSN" name="crewSSN"></div> *@
                                     <div class="col"><input class ="btn btn-light" type="submit" value="Add" name="Action"></div>
                                 </div>
-                            </form>
+                            </div>
                         </th>
                     </tr>
                 }
@@ -93,20 +93,20 @@
             </div>
         </div>
         <div class = "container w-50">
-            <form class = "form-group form-horizontal">
+            <div class = "form-group form-horizontal">
                 <div class = "form-group mb-3">
                     <div class = "row mt-5">
                         <div class = "col">
                             <label for="from"> Route: </label> 
-                            <input class = "form-control" type= "text" asp-for="from" placeholder="From" id = "from" name = "from">
+                            @* <input class = "form-control" type= "text" asp-for="from" placeholder="From" id = "from" name = "from"> *@
                         </div>
                         <div class = "col me-5">
                             <label for= "to"> </label>
-                            <input class = "form-control" type= "text" asp-for="to" placeholder="To" id = "to" name = "to">
+                            @* <input class = "form-control" type= "text" asp-for="to" placeholder="To" id = "to" name = "to"> *@
                         </div>
                         <div class = "col">
                             <label for= "Dtime"> Departure Time: </label> 
-                            <input class = "form-control" type= "text" asp-for="depTime"placeholder="" id = "Dtime" name = "Dtime">
+                            @* <input class = "form-control" type= "time" asp-for="Dtime"placeholder="" id = "Dtime" name = "Dtime"> *@
                         </div>
                     </div>
                     <br>
@@ -114,7 +114,7 @@
                         <input class ="btn btn-center btn-light btn-lg" type="submit" value="Add New Flight" name="Action">
                     </div>
                 </div>
-            </form>
+            </div>
         </div>   
     </form>
 </body>

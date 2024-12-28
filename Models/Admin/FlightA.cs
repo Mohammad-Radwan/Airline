@@ -1,5 +1,5 @@
 using Airline.Models;
-public class Flight
+public class FlightA
 {
     public string FlightNumber { get; set; }
     public string AircraftModel { get; set; }
