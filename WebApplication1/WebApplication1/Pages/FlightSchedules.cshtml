@@ -1,5 +1,6 @@
 @page
-@model WebApplication1.Pages.FlightSchedules
+@model WebApplication1.Pages.FlightSchedules;
+
 @{
     Layout = "_Layout";
 }
@@ -61,26 +62,26 @@
                     <label class="form-label">From</label>
                     <select class="form-select" id="fromAirport" name="fromAirport" required>
                         <option value="">Select Airport</option>
-                        @if (Model.Airports != null && Model.Airports.Any())
-                        {
-                            @foreach (var airport in Model.Airports)
-                            {
-                                <option value="@airport">@airport</option>
-                            }
-                        }
+                        @* @if (Model.Airports != null && Model.Airports.Any()) *@
+                        @* { *@
+                        @*     @foreach (var airport in Model.Airports) *@
+                        @*     { *@
+                        @*         <option value="@airport">@airport</option> *@
+                        @*     } *@
+                        @* } *@
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">To</label>
                     <select class="form-select" id="toAirport" name="toAirport" required>
                         <option value="">Select Airport</option>
-                        @if (Model.Airports != null && Model.Airports.Any())
-                        {
-                            @foreach (var airport in Model.Airports)
-                            {
-                                <option value="@airport">@airport</option>
-                            }
-                        }
+                        @* @if (Model.Airports != null && Model.Airports.Any()) *@
+                        @* { *@
+                        @*     @foreach (var airport in Model.Airports) *@
+                        @*     { *@
+                        @*         <option value="@airport">@airport</option> *@
+                        @*     } *@
+                        @* } *@
                     </select>
                 </div>
                 <div class="col-md-4">
