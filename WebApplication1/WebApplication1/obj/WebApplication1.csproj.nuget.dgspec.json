@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Coding\\SQL\\Project\\Airline\\WebApplication1\\WebApplication1\\WebApplication1.csproj": {}
+    "/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/WebApplication1.csproj": {}
   },
   "projects": {
-    "E:\\Coding\\SQL\\Project\\Airline\\WebApplication1\\WebApplication1\\WebApplication1.csproj": {
+    "/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Coding\\SQL\\Project\\Airline\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+        "projectUniqueName": "/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "E:\\Coding\\SQL\\Project\\Airline\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
-        "packagesPath": "C:\\Users\\youss\\.nuget\\packages\\",
-        "outputPath": "E:\\Coding\\SQL\\Project\\Airline\\WebApplication1\\WebApplication1\\obj\\",
+        "projectPath": "/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/WebApplication1.csproj",
+        "packagesPath": "/home/mohamed0-0mourad/.nuget/packages/",
+        "outputPath": "/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\youss\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/mohamed0-0mourad/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -61,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\youss\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/254/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
