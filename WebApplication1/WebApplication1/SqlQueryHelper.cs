@@ -1,26 +1,32 @@
 namespace WebApplication1;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
 public  class SqlQueryHelper
 {
-    public  SqlConnection GetConnectionObject(string file_name = "secret.json" , string ConnStrKey = "connstr")
+    public SqlConnection GetConnectionObject(string file_name = "secret.json", string ConnStrKey = "connstr")
+{
+    try
     {
         IConfiguration configuration = new ConfigurationBuilder()
             .AddJsonFile(file_name)
             .Build();
-    
-       
-        SqlConnection conn = new SqlConnection(configuration.GetSection(ConnStrKey).Value); 
+        Console.WriteLine($"Configuration Object Created ======>>>>>>{configuration.GetSection(ConnStrKey).Value}");
+        SqlConnection conn = new SqlConnection(configuration.GetSection(ConnStrKey).Value);
 
         Console.WriteLine($"Connection Object Created ==================>>>>>>>>>>>>>>>{conn}");
         return conn;
     }
-
-    public List<object> MakeCommandWithReturn(string Query, SqlConnection conn_object, List<SqlParameter> parameters = null, string Mode = "QuickRetreival")
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred while creating the connection object: {ex.Message}");
+        return null;
+    }
+}
+    public List<List<object>> MakeCommandWithReturn(string Query, SqlConnection conn_object, List<SqlParameter> parameters = null, string Mode = "QuickRetreival", int HowManyColums = 1)
 {
-    List<object> return_list = new List<Object>();
+    List<List<object>> return_list = new List<List<object>>();
     try
     {
         SqlCommand cmd = new SqlCommand(Query, conn_object);
@@ -28,28 +34,41 @@ public  class SqlQueryHelper
         
         if (Mode == "QuickRetreival")
         {
-            //QuickRetreival is the default mode and returns a list of rows of the table
+            // QuickRetreival is the default mode and returns a list of rows of the table
+            Console.WriteLine("QuickRetreival Mode");
             cmd.CommandType = CommandType.TableDirect;
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                return_list.Add(reader);
+                List<object> row = new List<object>();
+                for (int i = 0; i < HowManyColums; i++)
+                {
+                    row.Add(reader[i]);
+                }
+                return_list.Add(row);
             }
         }
         else
         {
             if (parameters != null)
             {
-                foreach(SqlParameter param in parameters)
+                foreach (SqlParameter param in parameters)
                 {
                     cmd.Parameters.Add(param);
                 }
             }
             cmd.CommandType = CommandType.Text;
+            Console.WriteLine($"Custom Mode ===>>> {Query}");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                return_list.Add(reader);
+                List<object> row = new List<object>();
+                for (int i = 0; i < HowManyColums; i++)
+                {
+                    Console.WriteLine(reader[i]);
+                    row.Add(reader[i]);
+                }
+                return_list.Add(row);
             }
         }
     }
