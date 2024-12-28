@@ -73,4 +73,10 @@
             </a>
         </div>
     </div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+    <div class="alert alert-info">
+        @TempData["SuccessMessage"]
+    </div>
+    }
 </div>
