@@ -9,3 +9,11 @@ Database Building Queries/Data Sample Injection/t.txt
 Database Building Queries/Data Sample Injection/Data/dataset 1/travel.sqlite
 .vscode
 Airline.csproj
+*.xml
+*.meta
+/.idea
+Airline.csproj
+Airline.csproj
+*.csproj
+*.csproj
+Airline.csproj
