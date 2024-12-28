@@ -18,8 +18,16 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1
 build_property._RazorSourceGeneratorDebug = 
 
+[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/AirCraftStatus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWlyQ3JhZnRTdGF0dXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/FlightSchedules.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRmxpZ2h0U2NoZWR1bGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Index.cshtml]
@@ -28,6 +36,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Routes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUm91dGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/SeatSelection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2VhdFNlbGVjdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/SeeAmenities.cshtml]
@@ -44,6 +60,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/ReportIncident.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UmVwb3J0SW5jaWRlbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Shared/_Layout.cshtml]
