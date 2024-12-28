@@ -19,10 +19,13 @@ public static class SqlQueryHelper
     }
 
     public static List<object> MakeCommandWithReturn(string Query, SqlConnection conn_object, List<SqlParameter> parameters = null, string Mode = "QuickRetreival")
+{
+    List<object> return_list = new List<Object>();
+    try
     {
         SqlCommand cmd = new SqlCommand(Query, conn_object);
         conn_object.Open();
-        List<object> return_list = new List<Object>();
+        
         if (Mode == "QuickRetreival")
         {
             //QuickRetreival is the default mode and returns a list of rows of the table
@@ -33,7 +36,6 @@ public static class SqlQueryHelper
                 return_list.Add(reader);
             }
         }
-        
         else
         {
             if (parameters != null)
@@ -50,10 +52,17 @@ public static class SqlQueryHelper
                 return_list.Add(reader);
             }
         }
-        conn_object.Close();
-        return return_list;
     }
-    
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred: {ex.Message}");
+    }
+    finally
+    {
+        conn_object.Close();
+    }
+    return return_list;
+}
     public static int MakeCommandWithoutReturn(string Query,List<SqlParameter> parameters, SqlConnection conn_object)
     {
         SqlCommand cmd = new SqlCommand(Query, conn_object);

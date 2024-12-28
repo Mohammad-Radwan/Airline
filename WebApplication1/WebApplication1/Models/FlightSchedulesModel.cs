@@ -16,7 +16,10 @@ public class FlightSchedulesModel
         
         foreach(SqlDataReader reader in readers)
         {
-            airportNames.Add(new AirportContainerObject { AirportName = reader[0].ToString() });        }
+            Console.WriteLine(reader.ToString());
+            airportNames.Add(new AirportContainerObject { AirportName = reader[0].ToString() });
+            
+        }
     
         return airportNames;
     }

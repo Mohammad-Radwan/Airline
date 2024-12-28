@@ -20,17 +20,17 @@ namespace WebApplication1.Pages
         [BindProperty]
         public List<object> FlightSchedulesList { get; set; }
 
-        public IActionResult OnGet()
+        public void OnGet()
         {
             try
             {
                 Airports = _flightSchedulesModel.GetAirports();
-                return Page();
+                // return Page();
             }
             catch
             {
                 ViewData["Error"] = "Failed to load airports data.";
-                return Page();
+                // return Page();
             }
         }
 
