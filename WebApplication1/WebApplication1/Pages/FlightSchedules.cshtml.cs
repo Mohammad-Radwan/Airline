@@ -34,17 +34,17 @@ namespace WebApplication1.Pages
             }
         }
 
-        public IActionResult OnGetFlightSchedules(string fromAirport, string toAirport, DateTimeOffset date)
-        {
-            try
-            {
-                var schedules = _flightSchedulesModel.GetFlightSchedules(fromAirport, toAirport, date);
-                return new JsonResult(schedules);
-            }
-            catch
-            {
-                return new JsonResult(new { error = "Failed to fetch flight schedules" });
-            }
-        }
+        // public IActionResult OnGetFlightSchedules(string fromAirport, string toAirport, DateTimeOffset date)
+        // {
+        //     try
+        //     {
+        //         var schedules = _flightSchedulesModel.GetFlightSchedules(fromAirport, toAirport, date);
+        //         return new JsonResult(schedules);
+        //     }
+        //     catch
+        //     {
+        //         return new JsonResult(new { error = "Failed to fetch flight schedules" });
+        //     }
+        // }
     }
 }

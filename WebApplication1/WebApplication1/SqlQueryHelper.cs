@@ -3,9 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
-public static class SqlQueryHelper
+public  class SqlQueryHelper
 {
-    public static SqlConnection GetConnectionObject(string file_name = "secret.json" , string ConnStrKey = "connstr")
+    public  SqlConnection GetConnectionObject(string file_name = "secret.json" , string ConnStrKey = "connstr")
     {
         IConfiguration configuration = new ConfigurationBuilder()
             .AddJsonFile(file_name)
@@ -18,7 +18,7 @@ public static class SqlQueryHelper
         return conn;
     }
 
-    public static List<object> MakeCommandWithReturn(string Query, SqlConnection conn_object, List<SqlParameter> parameters = null, string Mode = "QuickRetreival")
+    public List<object> MakeCommandWithReturn(string Query, SqlConnection conn_object, List<SqlParameter> parameters = null, string Mode = "QuickRetreival")
 {
     List<object> return_list = new List<Object>();
     try
@@ -63,7 +63,7 @@ public static class SqlQueryHelper
     }
     return return_list;
 }
-    public static int MakeCommandWithoutReturn(string Query,List<SqlParameter> parameters, SqlConnection conn_object)
+    public  int MakeCommandWithoutReturn(string Query,List<SqlParameter> parameters, SqlConnection conn_object)
     {
         SqlCommand cmd = new SqlCommand(Query, conn_object);
         cmd.CommandType = CommandType.StoredProcedure;
