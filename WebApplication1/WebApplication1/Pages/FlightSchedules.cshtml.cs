@@ -15,7 +15,7 @@ namespace WebApplication1.Pages
         }
 
         [BindProperty]
-        public List<object> Airports { get; set; }
+        public List<AirportContainerObject> Airports { get; set; }
 
         [BindProperty]
         public List<object> FlightSchedulesList { get; set; }

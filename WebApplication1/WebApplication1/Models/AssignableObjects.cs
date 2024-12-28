@@ -2,5 +2,5 @@ namespace WebApplication1.Models;
 
 public class AirportContainerObject
 {
-    public object AirportName { get; set; }
+    public string AirportName { get; set; }
 }

@@ -5,14 +5,22 @@ using System.Data;
 using System.Collections.Generic;
 public class FlightSchedulesModel 
 {
-    public List<object> GetAirports()
+    public List<AirportContainerObject> GetAirports()
     {
-        return MakeCommandWithReturn("SELECT name_ FROM AIRPORT;" 
-            , GetConnectionObject()
-            , null
-            ,"");
+        var airportNames = new List<AirportContainerObject>();
+        var readers = MakeCommandWithReturn(
+            "SELECT name_ FROM AIRPORT;", 
+            GetConnectionObject(), 
+            null,
+            "");
+        
+        foreach(SqlDataReader reader in readers)
+        {
+            airportNames.Add(new AirportContainerObject { AirportName = reader[0].ToString() });        }
     
+        return airportNames;
     }
+
     public List<object> GetFlightSchedules(string airport_from , string airport_to , DateTimeOffset date)
     {
     

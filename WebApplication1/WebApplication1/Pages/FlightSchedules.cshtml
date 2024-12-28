@@ -62,13 +62,13 @@
                     <label class="form-label">From</label>
                     <select class="form-select" id="fromAirport" name="fromAirport" required>
                         <option value="">Select Airport</option>
-                        @* @if (Model.Airports != null && Model.Airports.Any()) *@
-                        @* { *@
-                        @*     @foreach (var airport in Model.Airports) *@
-                        @*     { *@
-                        @*         <option value="@airport">@airport</option> *@
-                        @*     } *@
-                        @* } *@
+                        @if (Model.Airports != null && Model.Airports.Any())
+                        {
+                            @foreach (var airport in Model.Airports)
+                            {
+                                <option value="@airport">@airport.AirportName</option>
+                            }
+                        }
                     </select>
                 </div>
                 <div class="col-md-4">
@@ -80,7 +80,7 @@
                             @foreach (var airport in Model.Airports)
                             {
                                 
-                                <option value="@airport">@airport</option>
+                                <option value="@airport">@airport.AirportName</option>
                             }
                         }
                     </select>
