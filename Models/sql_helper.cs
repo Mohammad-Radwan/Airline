@@ -16,11 +16,11 @@ public static class sql_helper
         return conn;
     }
 
-    public static List<object> MakeCommandWithReturn(string Query, SqlConnection conn_object, string Mode = "QuickRetreival")
+    public static List<object> MakeCommandWithReturn(string Query, SqlConnection conn_object, List<SqlParameter> parameters = null, string Mode = "QuickRetreival")
     {
         SqlCommand cmd = new SqlCommand(Query, conn_object);
         conn_object.Open();
-        List<object> return_list = [];
+        List<object> return_list = new List<Object>();
         if (Mode == "QuickRetreival")
         {
             //QuickRetreival is the default mode and returns a list of rows of the table
@@ -31,9 +31,16 @@ public static class sql_helper
                 return_list.Add(reader);
             }
         }
-
+        
         else
         {
+            if (parameters != null)
+            {
+                foreach(SqlParameter param in parameters)
+                {
+                    cmd.Parameters.Add(param);
+                }
+            }
             cmd.CommandType = CommandType.Text;
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())

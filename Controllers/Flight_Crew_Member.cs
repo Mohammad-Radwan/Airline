@@ -19,6 +19,9 @@ namespace Airline.Controllers
         }
         public IActionResult flight_schedules()
         {
+            var model = new Airline.Models.flight_schedules();
+            // ViewData["Airports"] = model.GetAirports();
+            
             return View(); 
         }
         public IActionResult seat_selection()
