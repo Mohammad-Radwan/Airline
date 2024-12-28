@@ -12,6 +12,7 @@ public class SeeAmenitiesModel : PageModel
     
     public void OnGet()
     {
+        Console.WriteLine("OnGet");
         // Sliers = new List<Supplier>();
         SqlConnection con= new SqlConnection(conString);
         // SqlConnection con = sql_helper.GetConnectionObject();

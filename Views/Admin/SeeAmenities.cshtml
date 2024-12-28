@@ -66,6 +66,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            @if(Model.Sliers != null && Model.Sliers.Any()){
                                 @for (int i=0;i<Model.Sliers.Count;i++)
                                 {
                                     <tr>
@@ -73,6 +74,7 @@
                                         <td>@Model.Sliers[i].Content</td>
                                     </tr>
                                 }
+                            }
                             </tbody>
                         </table>
                     </div>
