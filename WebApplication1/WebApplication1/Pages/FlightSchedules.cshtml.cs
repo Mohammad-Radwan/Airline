@@ -35,20 +35,27 @@ namespace WebApplication1.Pages
             }
         }
 
-        public IActionResult OnGetFlightSchedules(string fromAirport, string toAirport, DateOnly flightDate , TimeOnly flightTime , TimeSpan utcOffset)
+        public IActionResult OnGetFlightSchedules(string fromAirport, string toAirport, DateOnly flightDate, TimeOnly flightTime, TimeSpan utcOffset)
         {
             try
             {
+                Console.WriteLine($"From Airport: {fromAirport}, To Airport: {toAirport}, Flight Date: {flightDate}, Flight Time: {flightTime}, UTC Offset: {utcOffset}");
                 var schedules = _flightSchedulesModel.GetFlightSchedules(
                     fromAirport, toAirport,
-                    new DateTimeOffset(flightDate.Year, flightDate.Month, flightDate.Day, flightTime.Hour, flightTime.Minute, flightTime.Second, utcOffset)
-                    );
-                return new JsonResult(schedules);
+                    new DateTimeOffset(flightDate.Year, flightDate.Month, flightDate.Day, 
+                        flightTime.Hour, flightTime.Minute, flightTime.Second, utcOffset)
+                );
+                return new JsonResult(schedules);            
             }
-            catch
+            catch (Exception ex)
             {
-                return new JsonResult(new { error = "Failed to fetch flight schedules" });
+                Console.WriteLine($"Failed to fetch flight schedules: {ex.Message}");
+                return new JsonResult(new { error = "Failed to fetch flight schedules" }) 
+                { 
+                    StatusCode = 500 
+                };
             }
         }
+
     }
 }

@@ -45,7 +45,7 @@ public class FlightSchedulesModel
             f.arrival_time AS ArrivalTime,
             'AirlineName' AS Airline,  -- Assuming you would have this data from another table or API
             f.aircraft_id AS Aircraft,
-            r.ro_id As RouteID,
+            r.ro_id As RouteID
             FROM 
             FLIGHT f
             INNER JOIN 
@@ -69,7 +69,7 @@ public class FlightSchedulesModel
         );
         foreach(List<object> reader in readers)
         {
-            // Console.WriteLine(reader.ToString());
+            Console.WriteLine($"-------------->>>>>>>>>{ reader[0].ToString()}");
             FlightsLista.Add(new FlightScheduleContainerObject
             {
                 FlightNumber = reader[0].ToString(),

@@ -1,5 +1,6 @@
 @page
 @model WebApplication1.Pages.FlightSchedules;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     Layout = "_Layout";
@@ -126,31 +127,62 @@
                     </select>
                 </div>
 
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary" onclick="searchFlights()">Search Flights</button>
-                </div>
-                <script>
-                    function searchFlights() {
-                        const fromAirport = document.getElementById('fromAirport').value;
-                        const toAirport = document.getElementById('toAirport').value;
-                        const flightDate = document.getElementById('flightDate').value;
-                        const flightTime = document.getElementById('flightTime').value;
-                        const utcOffset = document.getElementById('utcOffset').value;
-
-                        fetch(`/FlightSchedules?handler=FlightSchedules&fromAirport=${fromAirport}&toAirport=${toAirport}&flightDate=${flightDate}&flightTime=${flightTime}&utcOffset=${utcOffset}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                // Handle the response data
-                                console.log(data);
-                            })
-                            .catch(error => {
-                                console.error('Error fetching flight schedules:', error);
-                            });
-                    }
-                </script>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search Flights</button>
+            </div>
             </form>
         </div>
     </div>
+    <script>
+        document.getElementById('scheduleSearchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const fromAirport = document.getElementById('fromAirport').value;
+            const toAirport = document.getElementById('toAirport').value;
+            const flightDate = document.getElementById('flightDate').value;
+            const flightTime = document.getElementById('flightTime').value;
+            const utcOffset = document.getElementById('utcOffset').value;
+
+            try {
+                // Make the API call to the server using GET with query parameters
+                const response = await fetch(`?handler=FlightSchedules&fromAirport=${encodeURIComponent(fromAirport)}&toAirport=${encodeURIComponent(toAirport)}&flightDate=${encodeURIComponent(flightDate)}&flightTime=${encodeURIComponent(flightTime)}&utcOffset=${encodeURIComponent(utcOffset)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const schedules = await response.json();
+
+                // Update the table with the results
+                const tbody = document.getElementById('scheduleTableBody');
+                tbody.innerHTML = '';
+
+                schedules.forEach(flight => {
+                    tbody.innerHTML += `
+                <tr>
+                    <td>${flight.flightNumber}</td>
+                    <td>${flight.departureAirport}</td>
+                    <td>${flight.arrivalAirport}</td>
+                    <td>${flight.departureTime}</td>
+                    <td>${flight.arrivalTime}</td>
+                    <td>On Time</td>
+                </tr>
+            `;
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to fetch flight schedules');
+            }
+        });
+    </script>
+
+
 
     <!-- Flight Schedule Table -->
     <div class="table-responsive">
