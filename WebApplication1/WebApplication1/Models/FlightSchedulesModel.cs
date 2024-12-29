@@ -37,35 +37,56 @@ public class FlightSchedulesModel
             new SqlParameter("@date", SqlDbType.DateTimeOffset) { Value = date }
         };
 
-        string query =  @"SELECT 
+//         string query =  @"SELECT //hardcoded query for testing
+//             f.fid AS FlightNumber,
+//             a1.name_ AS DepartureAirport,
+//             a2.name_ AS ArrivalAirport,
+//             f.depart_time AS DepartureTime,
+//             f.arrival_time AS ArrivalTime,
+//             f.aircraft_id AS Aircraft,
+//             r.ro_id As RouteID
+//         FROM
+//         FLIGHT f
+//             INNER JOIN
+//         ROUTE r ON f.route_id = r.ro_id
+//             INNER JOIN
+//         AIRPORT a1 ON r.start_airport = a1.airport_id
+//             INNER JOIN
+//         AIRPORT a2 ON r.end_airport = a2.airport_id
+//         WHERE
+//             a1.name_ = 'Ivanovo South Airport'
+//           AND a2.name_ = 'Sochi International Airport' 
+        // f.depart_time > '2017-01-01 00:00:00' and f.arrival_time < '2017-10-30 00:00:00';
+// ";            
+        string query = @"SELECT
             f.fid AS FlightNumber,
-            a1.name_ AS DepartureAirport, 
+            a1.name_ AS DepartureAirport,
             a2.name_ AS ArrivalAirport,
             f.depart_time AS DepartureTime,
             f.arrival_time AS ArrivalTime,
-            'AirlineName' AS Airline,  -- Assuming you would have this data from another table or API
             f.aircraft_id AS Aircraft,
             r.ro_id As RouteID
-            FROM 
-            FLIGHT f
-            INNER JOIN 
-            ROUTE r ON f.route_id = r.ro_id
-            INNER JOIN 
-            AIRPORT a1 ON r.start_airport = a1.airport_id
-            INNER JOIN 
-            AIRPORT a2 ON r.end_airport = a2.airport_id
-            WHERE 
-            r.start_airport = @airport_from
-            AND r.end_airport = @airport_to
-            AND f.depart_time >= @date 
-            AND f.depart_time < DATEADD(DAY, 1, @date);"; //  -- If you want all flights on the given date, this ensures a date range
-
+        FROM
+        FLIGHT f
+            INNER JOIN
+        ROUTE r ON f.route_id = r.ro_id
+            INNER JOIN
+        AIRPORT a1 ON r.start_airport = a1.airport_id
+            INNER JOIN
+        AIRPORT a2 ON r.end_airport = a2.airport_id
+        WHERE
+            a1.name_ = 'Ivanovo South Airport'
+          AND a2.name_ = 'Sochi International Airport' 
+        AND f.depart_time >= @date 
+        AND f.arrival_time < DATEADD(DAY, 1, @date);
+";
+        
         var readers = sqh.MakeCommandWithReturn(
             query,
             sqh.GetConnectionObject(),
             parameters,
             "" ,
-            8
+            7
         );
         foreach(List<object> reader in readers)
         {
@@ -77,9 +98,8 @@ public class FlightSchedulesModel
                 ArrivalAirport = reader[2].ToString(),
                 DepartureTime = reader[3].ToString(),
                 ArrivalTime = reader[4].ToString(),
-                Airline = reader[5].ToString(),
-                Aircraft = reader[6].ToString(),
-                RouteID = reader[7].ToString()
+                Aircraft = reader[5].ToString(),
+                RouteID = reader[6].ToString()
             });        
         }
 

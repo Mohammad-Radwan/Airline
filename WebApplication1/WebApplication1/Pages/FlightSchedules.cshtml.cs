@@ -19,7 +19,7 @@ namespace WebApplication1.Pages
         public List<AirportContainerObject> Airports { get; set; }
 
         [BindProperty]
-        public List<object> FlightSchedulesList { get; set; }
+        public List<FlightScheduleContainerObject> Schedules { get; set; }
 
         public void OnGet()
         {
@@ -40,12 +40,12 @@ namespace WebApplication1.Pages
             try
             {
                 Console.WriteLine($"From Airport: {fromAirport}, To Airport: {toAirport}, Flight Date: {flightDate}, Flight Time: {flightTime}, UTC Offset: {utcOffset}");
-                var schedules = _flightSchedulesModel.GetFlightSchedules(
+                 Schedules = _flightSchedulesModel.GetFlightSchedules(
                     fromAirport, toAirport,
                     new DateTimeOffset(flightDate.Year, flightDate.Month, flightDate.Day, 
                         flightTime.Hour, flightTime.Minute, flightTime.Second, utcOffset)
                 );
-                return new JsonResult(schedules);            
+                return new JsonResult(Schedules);            
             }
             catch (Exception ex)
             {
