@@ -54,3 +54,28 @@ footer a:hover {
         padding: 2rem 0;
     }
 }
+
+tyle>
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table-responsive {
+    scrollbar-width: thin;
+    scrollbar-color: #6c757d #f8f9fa;
+}
+
+.table-responsive::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f8f9fa;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: #6c757d;
+    border-radius: 4px;
+}

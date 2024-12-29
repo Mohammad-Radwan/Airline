@@ -46,55 +46,42 @@
 <div class="container py-4">
     <h1 class="mb-4">Routes and Aircraft Information</h1>
 
-    <!-- Route Information Section -->
-    <div class="card mb-4">
-        <div class="card-header d-flex align-items-center">
-            <i class="bi bi-geo-alt me-2"></i>
-            <h2 class="h5 mb-0">Route Information</h2>
-        </div>
-        <div class="card-body">
-            @if (ViewData["Error"] != null)
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-hover">
+            <thead class="sticky-top bg-white">
+            <tr>
+                <th>Route ID</th>
+                <th>Departure - Arrival</th>
+                <th>Distance (km)</th>
+                <th>Duration (hours)</th>
+                <th>Base Price ($)</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model.RoutesList != null && Model.RoutesList.Any())
             {
-                <div class="alert alert-danger" role="alert">
-                    @ViewData["Error"]
-                </div>
-            }
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
+                @foreach (var route in Model.RoutesList)
+                {
                     <tr>
-                        <th>Route ID</th>
-                        <th>Departure - Arrival</th>
-                        <th>Distance (km)</th>
-                        <th>Duration (hours)</th>
-                        <th>Base Price ($)</th>
+                        <td>@route.RouteID</td>
+                        <td>@route.DepartureAirport - @route.ArrivalAirport</td>
+                        <td>@route.Distance</td>
+                        <td>@route.Duration</td>
+                        <td>@route.BasePrice</td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    @if (Model.RoutesList != null && Model.RoutesList.Any())
-                    {
-                        @foreach (var route in Model.RoutesList)
-                        {
-                            <tr>
-                                <td>@route.RouteID</td>
-                                <td>@route.DepartureAirport - @route.ArrivalAirport</td>
-                                <td>@route.Distance</td>
-                                <td>@route.Duration</td>
-                                <td>@route.BasePrice</td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5" class="text-center">No routes available</td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No routes available</td>
+                </tr>
+            }
+            </tbody>
+        </table>
     </div>
+</div>
+
 
     <!-- Aircraft Fleet Section -->
     <div class="card mb-4">
@@ -141,7 +128,6 @@
             </div>
         </div>
     </div>
-</div>
 
     <footer class="bg-dark text-white py-4 mt-5">
     <div class="container">
