@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebApplication1.Models;
 using System.Collections.Generic;
-using Microsoft.Identity.Client.Region;
 
 namespace WebApplication1.Pages
 {

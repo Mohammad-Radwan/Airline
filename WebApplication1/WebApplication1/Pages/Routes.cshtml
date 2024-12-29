@@ -53,6 +53,12 @@
             <h2 class="h5 mb-0">Route Information</h2>
         </div>
         <div class="card-body">
+            @if (ViewData["Error"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewData["Error"]
+                </div>
+            }
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -65,20 +71,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>RO001</td>
-                        <td>JFK - LHR</td>
-                        <td>5536</td>
-                        <td>7</td>
-                        <td>800</td>
-                    </tr>
-                    <tr>
-                        <td>RO002</td>
-                        <td>LHR - DXB</td>
-                        <td>5495</td>
-                        <td>7</td>
-                        <td>750</td>
-                    </tr>
+                    @if (Model.RoutesList != null && Model.RoutesList.Any())
+                    {
+                        @foreach (var route in Model.RoutesList)
+                        {
+                            <tr>
+                                <td>@route.RouteID</td>
+                                <td>@route.DepartureAirport - @route.ArrivalAirport</td>
+                                <td>@route.Distance</td>
+                                <td>@route.Duration</td>
+                                <td>@route.BasePrice</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">No routes available</td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
@@ -105,22 +116,26 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>AC001</td>
-                        <td>787-9</td>
-                        <td>Boeing</td>
-                        <td>290</td>
-                        <td>2023-01-15</td>
-                        <td>945</td>
-                    </tr>
-                    <tr>
-                        <td>AC002</td>
-                        <td>A350-900</td>
-                        <td>Airbus</td>
-                        <td>325</td>
-                        <td>2023-03-20</td>
-                        <td>945</td>
-                    </tr>
+                    @if (Model.AircraftList != null && Model.AircraftList.Any())
+                    {
+                        @foreach (var aircraft in Model.AircraftList)
+                        {
+                            <tr>
+                                <td>@aircraft.AircraftID</td>
+                                <td>@aircraft.Model</td>
+                                <td>@aircraft.Manufacturer</td>
+                                <td>@aircraft.Capacity</td>
+                                <td>@aircraft.JoinDate</td>
+                                <td>@aircraft.Speed</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center">No aircraft available</td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
@@ -128,7 +143,7 @@
     </div>
 </div>
 
-<footer class="bg-dark text-white py-4 mt-5">
+    <footer class="bg-dark text-white py-4 mt-5">
     <div class="container">
         <div class="row">
             <div class="col-md-4">
