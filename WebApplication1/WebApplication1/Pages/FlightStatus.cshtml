@@ -1,0 +1,238 @@
+@page
+@model WebApplication1.Pages.FlightStatus
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Status - SkyWay Airways</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../wwwroot/UnifiedStyle.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">SkyWay Airlines</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="FlightSchedules"> Flight Schedules</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="Routes">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="ReportIncident">Report Incident</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="FlightStatus">Aircraft Status</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"asp-area="" asp-page="SeatSelection">Seat Selection</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<div class="container py-5">
+    <h1 class="mb-4">Flight Status</h1>
+
+    <!-- Flight Search -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Flight Number</label>
+                    <input type="text" class="form-control" placeholder="Enter flight number (e.g., SK101)">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-control">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Check Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Replace the existing Flight Status Cards section with this -->
+    <div class="row justify-content-center">
+        <div class="col-md-8" id="flightStatusCard" style="display: none;">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0" id="flightHeader"></h5>
+                    <span class="badge" id="statusBadge"></span>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <p class="mb-1"><strong>From:</strong> <span id="departureAirport"></span></p>
+                            <p class="mb-1"><strong>Departure:</strong> <span id="departureTime"></span></p>
+                            <p id="departureStatus"></p>
+                        </div>
+                        <div class="col-6">
+                            <p class="mb-1"><strong>To:</strong> <span id="arrivalAirport"></span></p>
+                            <p class="mb-1"><strong>Arrival:</strong> <span id="arrivalTime"></span></p>
+                            <p id="arrivalStatus"></p>
+                        </div>
+                    </div>
+                    <div class="flight-progress mb-3">
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar" id="flightProgress" role="progressbar" style="width: 0%">
+                                0% Complete
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flight-conditions">
+                        <h6>Flight Conditions</h6>
+                        <ul class="list-unstyled" id="flightConditions">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Status-specific border colors */
+        .card.status-ontime { border-color: #28a745; }
+        .card.status-departed { border-color: #007bff; }
+        .card.status-arrived { border-color: #17a2b8; }
+        .card.status-delayed { border-color: #ffc107; }
+        .card.status-cancelled { border-color: #dc3545; }
+        .card.status-scheduled { border-color: #6c757d; }
+    </style>
+
+    <script>
+        document.getElementById('SearchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const flightId = document.getElementById('flightId').value;
+            const flightDate = document.getElementById('flightDate').value;
+
+            try {
+                const response = await fetch(`?handler=GetFlightDetails&FlightID=${encodeURIComponent(flightId)}&DepartTime=${encodeURIComponent(flightDate)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    updateFlightStatusCard(result.success);
+                } else {
+                    alert('Flight not found');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to fetch flight details');
+            }
+        });
+
+        function updateFlightStatusCard(flight) {
+            // Show the card
+            const statusCard = document.getElementById('flightStatusCard');
+            statusCard.style.display = 'block';
+
+            // Remove any existing status classes and add the new one
+            const card = statusCard.querySelector('.card');
+            card.className = 'card';
+            card.classList.add(`status-${flight.status.toLowerCase()}`);
+
+            // Update header and status badge
+            document.getElementById('flightHeader').textContent = `${flight.flightNumber}`;
+
+            const statusBadge = document.getElementById('statusBadge');
+            statusBadge.textContent = flight.status;
+            statusBadge.className = `badge bg-${getStatusColor(flight.status)}`;
+
+            // Update flight details
+            document.getElementById('departureAirport').textContent = flight.departureAirport;
+            document.getElementById('arrivalAirport').textContent = flight.arrivalAirport;
+            document.getElementById('departureTime').textContent = flight.departureTime;
+            document.getElementById('arrivalTime').textContent = flight.arrivalTime;
+
+            // Update progress bar
+            const progressBar = document.getElementById('flightProgress');
+            progressBar.style.width = `${flight.progress}%`;
+            progressBar.textContent = `${flight.progress}% Complete`;
+            progressBar.className = `progress-bar bg-${getStatusColor(flight.status)}`;
+
+            // Update flight conditions
+            const conditionsList = document.getElementById('flightConditions');
+            conditionsList.innerHTML = flight.conditions.map(condition =>
+                `<li class="text-${condition.status}">${getStatusIcon(condition.status)} ${condition.message}</li>`
+            ).join('');
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'On Time': 'success',
+                'Departed': 'primary',
+                'Arrived': 'info',
+                'Delayed': 'warning',
+                'Cancelled': 'danger',
+                'Scheduled': 'secondary'
+            };
+            return colors[status] || 'secondary';
+        }
+
+        function getStatusIcon(status) {
+            const icons = {
+                'success': '✓',
+                'warning': '⚠',
+                'danger': '✕',
+                'info': 'ℹ'
+            };
+            return icons[status] || 'ℹ';
+        }
+    </script>
+    
+</div>
+<footer class="bg-dark text-white py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Contact Us</h5>
+                <p>Email: info@skywayeairlines.com<br>
+                    Phone: 1-800-SKY-WAYS</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">About Us</a></li>
+                    <li><a href="#" class="text-white">Terms & Conditions</a></li>
+                    <li><a href="#" class="text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Follow Us</h5>
+                <div class="social-links">
+                    <a href="#" class="text-white me-2">Facebook</a>
+                    <a href="#" class="text-white me-2">Twitter</a>
+                    <a href="#" class="text-white">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

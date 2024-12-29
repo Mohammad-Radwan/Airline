@@ -44,11 +44,23 @@ public class IncidentContainerObject()
 {
     public string FlightID { get; set; }
     public string IncidentLocation { get; set; }
-    
     public DateTime IncidentDateTime { get; set; }
     public int IncidentCasualitiesCount { get; set; }
     public int IncidentSurvivorsCount { get; set; }
     public string IncidentCause { get; set; }
     public string IncidentPenalities { get; set; }
+    
+}
+
+
+public class FlightStatusContainerObject()
+{
+    public string FlightID { get; set; }
+    public string FlightStatus { get; set; }
+    public DateTimeOffset FlightDepartTime { get; set; }
+    public DateTimeOffset FlightArrivalTime { get; set; }
+    public string FlightRoute { get; set; }
+    public string FlightAirCraft { get; set; }
+    public int FlightDuration { get; set; }
     
 }
