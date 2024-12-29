@@ -37,15 +37,12 @@
                     <a class="nav-link" asp-area="" asp-page="AircraftStatus">Aircraft Status</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"asp-area="" asp-page="SeatSelection">Seat Selection</a>
+                    <a class="nav-link" asp-area="" asp-page="SeatSelection">Seat Selection</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
-
-<!-- Keep your existing HTML header and navigation -->
 
 <div class="container py-5">
     <h1 class="mb-4">Report an Incident</h1>
@@ -65,17 +62,17 @@
                     <h4 class="mb-3">Flight Information</h4>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label asp-for="Incident.FlightID" class="form-label">Flight ID</label>
-                            <input asp-for="Incident.FlightID" class="form-control" required
+                            <label for="flightId" class="form-label">Flight ID</label>
+                            <input id="flightId" class="form-control" required
                                    pattern="[A-Z]{2}[0-9]{3,4}"
                                    placeholder="e.g., SK101">
-                            <span asp-validation-for="Incident.FlightID" class="invalid-feedback"></span>
+                            <span class="invalid-feedback"></span>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label asp-for="Incident.IncidentLocation" class="form-label">Incident Location</label>
-                            <input asp-for="Incident.IncidentLocation" class="form-control" required
+                            <label for="incidentLocation" class="form-label">Incident Location</label>
+                            <input id="incidentLocation" class="form-control" required
                                    placeholder="e.g., Airport name or coordinates">
-                            <span asp-validation-for="Incident.IncidentLocation" class="invalid-feedback"></span>
+                            <span class="invalid-feedback"></span>
                         </div>
                     </div>
                 </div>
@@ -85,13 +82,13 @@
                     <h4 class="mb-3">Incident Details</h4>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label asp-for="Incident.IncidentDate" class="form-label">Date and Time</label>
-                            <input asp-for="Incident.IncidentDate" type="datetime-local" class="form-control" required>
-                            <span asp-validation-for="Incident.IncidentDate" class="invalid-feedback"></span>
+                            <label for="incidentDateTime" class="form-label">Date and Time</label>
+                            <input id="incidentDateTime" type="datetime-local" class="form-control" required>
+                            <span class="invalid-feedback"></span>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label asp-for="Incident.IncidentCause" class="form-label">Cause of Incident</label>
-                            <select asp-for="Incident.IncidentCause" class="form-select" required>
+                            <label for="incidentCause" class="form-label">Cause of Incident</label>
+                            <select id="incidentCause" class="form-select" required>
                                 <option value="">Select cause</option>
                                 <option>Technical Malfunction</option>
                                 <option>Weather Conditions</option>
@@ -100,7 +97,7 @@
                                 <option>Security Breach</option>
                                 <option>Other</option>
                             </select>
-                            <span asp-validation-for="Incident.IncidentCause" class="invalid-feedback"></span>
+                            <span class="invalid-feedback"></span>
                         </div>
                     </div>
                 </div>
@@ -110,16 +107,16 @@
                     <h4 class="mb-3">Impact Assessment</h4>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label asp-for="Incident.IncidentCasualitiesCount" class="form-label">Number of Casualties</label>
-                            <input asp-for="Incident.IncidentCasualitiesCount" type="number" class="form-control" required min="0"
+                            <label for="casualtiesCount" class="form-label">Number of Casualties</label>
+                            <input id="casualtiesCount" type="number" class="form-control" required min="0"
                                    placeholder="Enter number">
-                            <span asp-validation-for="Incident.IncidentCasualitiesCount" class="invalid-feedback"></span>
+                            <span class="invalid-feedback"></span>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label asp-for="Incident.IncidentSurvivorsCount" class="form-label">Number of Survivors</label>
-                            <input asp-for="Incident.IncidentSurvivorsCount" type="number" class="form-control" required min="0"
+                            <label for="survivorsCount" class="form-label">Number of Survivors</label>
+                            <input id="survivorsCount" type="number" class="form-control" required min="0"
                                    placeholder="Enter number">
-                            <span asp-validation-for="Incident.IncidentSurvivorsCount" class="invalid-feedback"></span>
+                            <span class="invalid-feedback"></span>
                         </div>
                     </div>
                 </div>
@@ -128,8 +125,8 @@
                 <div class="mb-4">
                     <h4 class="mb-3">Regulatory Information</h4>
                     <div class="mb-3">
-                        <label asp-for="Incident.IncidentPenalities" class="form-label">Penalties/Actions Taken</label>
-                        <select asp-for="Incident.IncidentPenalities" class="form-select" required>
+                        <label for="penalties" class="form-label">Penalties/Actions Taken</label>
+                        <select id="penalties" class="form-select" required>
                             <option value="">Select penalty type</option>
                             <option>Financial Penalty</option>
                             <option>License Suspension</option>
@@ -138,7 +135,7 @@
                             <option>Investigation Pending</option>
                             <option>No Action Required</option>
                         </select>
-                        <span asp-validation-for="Incident.IncidentPenalities" class="invalid-feedback"></span>
+                        <span class="invalid-feedback"></span>
                     </div>
                 </div>
 
@@ -150,6 +147,51 @@
     </div>
 </div>
 
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get form values by ID
+        const flightId = document.getElementById('flightId').value;
+        const incidentLocation = document.getElementById('incidentLocation').value;
+        const incidentDateTime = document.getElementById('incidentDateTime').value;
+        const incidentCause = document.getElementById('incidentCause').value;
+        const casualtiesCount = document.getElementById('casualtiesCount').value;
+        const survivorsCount = document.getElementById('survivorsCount').value;
+        const penalties = document.getElementById('penalties').value;
+
+        // Use the values as needed
+        console.log({
+            flightId,
+            incidentLocation,
+            incidentDateTime,
+            incidentCause,
+            casualtiesCount,
+            survivorsCount,
+            penalties
+        });
+
+        // AJAX request to call the OnGetSendReport method
+        fetch(`?handler=SendReport&flight_id=${flightId}&incident_location=${incidentLocation}&date=${incidentDateTime}&casualities_count=${casualtiesCount}&survivors_count=${survivorsCount}&incident_cause=${incidentCause}&penalties=${penalties}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Report submitted successfully');
+            } else {
+                alert('Failed to submit report');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the report');
+        });
+    });
+</script>
 <!-- Keep your existing footer -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

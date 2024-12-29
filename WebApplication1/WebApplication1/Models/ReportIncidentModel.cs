@@ -19,16 +19,16 @@ public bool SendReport(string flight_id , string incident_location , DateTime da
             new SqlParameter("@penalties", SqlDbType.VarChar, 50) { Value = penalties }
         };
 
-        string query = @"INSERT INTO Incident (flight_id, incident_location, date, casualities_count, survivors_count, incident_cause, penalties) 
+        string query = @"INSERT INTO Incident (Flight_ID, Incident_location, date_, No_of_Casualties, No_of_Survivors, Cause_of_Incident, Penalties) 
                         VALUES (@flight_id, @incident_location, @date, @casualities_count, @survivors_count, @incident_cause, @penalties);";
         
         var affectedLines = sqh.MakeCommandWithoutReturn(
-            query,
+            query,            
             parameters,
             sqh.GetConnectionObject()
         );
         
-
+        
         return affectedLines > 0  ? true : false;
     }
     

@@ -23,62 +23,25 @@ namespace WebApplication1
             // Initialize any required data
         }
         
-        public IActionResult OnPost()
+        public IActionResult OnGetSendReport(string flight_id , string incident_location , DateTime date , int casualities_count , int survivors_count , string incident_cause , string penalties)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
             try
             {
-                DateTime incidentDate;
-                int casualtiesCount, survivorsCount;
-
-                if (!DateTime.TryParse(Incident.IncidentDate, out incidentDate))
-                {
-                    ModelState.AddModelError("Incident.IncidentDate", "Invalid date format");
-                    return Page();
-                }
-
-                if (!int.TryParse(Incident.IncidentCasualitiesCount, out casualtiesCount))
-                {
-                    ModelState.AddModelError("Incident.IncidentCasualitiesCount", "Invalid number format");
-                    return Page();
-                }
-
-                if (!int.TryParse(Incident.IncidentSurvivorsCount, out survivorsCount))
-                {
-                    ModelState.AddModelError("Incident.IncidentSurvivorsCount", "Invalid number format");
-                    return Page();
-                }
-
-                bool success = _reportIncidentModel.SendReport(
-                    Incident.FlightID,
-                    Incident.IncidentLocation,
-                    incidentDate,
-                    casualtiesCount,
-                    survivorsCount,
-                    Incident.IncidentCause,
-                    Incident.IncidentPenalities
+                Console.WriteLine($"Flight ID: {flight_id}, Incident Location: {incident_location}, IncidentDate: {date}, Casualities Count: {casualities_count}, Survivors Count: {survivors_count}, Incident Cause: {incident_cause}, Penalties: {penalties}");
+                var result = _reportIncidentModel.SendReport(
+                    flight_id, incident_location, date, casualities_count, survivors_count, incident_cause, penalties
                 );
-
-                if (success)
-                {
-                    TempData["Success"] = "Incident report submitted successfully.";
-                    return RedirectToPage("/Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Failed to report incident.");
-                    return Page();
-                }
+                return new JsonResult(new { success = result });
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", $"Error reporting incident: {ex.Message}");
-                return Page();
+                Console.WriteLine($"Failed to send report: {ex.Message}");
+                return new JsonResult(new { error = "Failed to send report" }) 
+                { 
+                    StatusCode = 500 
+                };
             }
         }
+        
     }
 }

@@ -85,13 +85,17 @@ public  class SqlQueryHelper
     public  int MakeCommandWithoutReturn(string Query,List<SqlParameter> parameters, SqlConnection conn_object)
     {
         SqlCommand cmd = new SqlCommand(Query, conn_object);
-        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandType = CommandType.Text;
         conn_object.Open();
+        Console.WriteLine($"Query ===>>> {Query}");
         foreach (SqlParameter param in parameters)
         {
             cmd.Parameters.Add(param);
         }
+        int result = cmd.ExecuteNonQuery();//for multiple crud operations
+
         conn_object.Close();
-        return cmd.ExecuteNonQuery();//for multiple crud operations
+        Console.WriteLine($"Result ===>>> {result}");
+        return result;    
     }
 }
