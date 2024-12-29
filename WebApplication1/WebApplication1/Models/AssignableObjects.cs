@@ -38,3 +38,17 @@ public class AirCraftContainerObject()
     public string Speed { get; set; }
 
 }
+
+
+public class IncidentContainerObject()
+{
+    public string FlightID { get; set; }
+    public string IncidentLocation { get; set; }
+    public string IncidentDate { get; set; }
+    public string IncidentTime { get; set; }
+    public string IncidentCasualitiesCount { get; set; }
+    public string IncidentSurvivorsCount { get; set; }
+    public string IncidentCause { get; set; }
+    public string IncidentPenalities { get; set; }
+    
+}
