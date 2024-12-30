@@ -67,3 +67,23 @@ public class FlightStatusContainerObject
     public bool SearchPerformed { get; set; }
     public string ErrorMessage { get; set; }
 }
+
+
+
+public class SeatSelectionContainerObject
+{
+    public string FlightID { get; set; }
+    public string BoardingID { get; set; }
+    public string SelectedSeatID { get; set; }
+    public List<SeatInfo> AvailableSeats { get; set; }
+    public string ErrorMessage { get; set; }
+    public bool SearchPerformed { get; set; }
+}
+
+public class SeatInfo
+{
+    public string SeatID { get; set; }
+    public string Class { get; set; }
+    public bool IsAvailable { get; set; }
+    public string AircraftID { get; set; }
+}
