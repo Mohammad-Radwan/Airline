@@ -55,21 +55,27 @@ using System.Data.SqlClient;
                 new SqlParameter("@SeatID", SqlDbType.VarChar, 50) { Value = seatID }
             };
 
-            string query = @"
-                UPDATE Boarding 
-                SET Seat_Number = @SeatID 
-                WHERE Board_ID = @BoardingID;
-                UPDATE SEAT 
-                SET is_available = 0 
-                WHERE seat_id = @SeatID;";
+            string query1 = @"
+            UPDATE Boarding 
+            SET Seat_Number = @SeatID 
+            WHERE Board_ID = @BoardingID;";
 
-            var affectedRows = sqh.MakeCommandWithoutReturn(
-                query,
+            string query2 = @"
+            UPDATE SEAT 
+            SET is_available = 0 
+            WHERE seat_id = @SeatID;";
+
+            var affectedRows1 = sqh.MakeCommandWithoutReturn(
+                query1,
                 parameters,
                 sqh.GetConnectionObject()
             );
-
-            return affectedRows > 0;
+            var affectedRows2 = sqh.MakeCommandWithoutReturn(
+                query2,
+                parameters,
+                sqh.GetConnectionObject()
+            );
+            return affectedRows1+affectedRows2 > 0;
         }
 
         public bool ValidateBoardingPass(string boardingID, string flightID)

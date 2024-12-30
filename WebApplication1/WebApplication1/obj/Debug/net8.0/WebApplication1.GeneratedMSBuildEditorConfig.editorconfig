@@ -9,71 +9,75 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebApplication1
 build_property.RootNamespace = WebApplication1
-build_property.ProjectDir = /media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/
+build_property.ProjectDir = E:\Coding\SQL\Project\Airline\WebApplication1\WebApplication1\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1
+build_property.MSBuildProjectDirectory = E:\Coding\SQL\Project\Airline\WebApplication1\WebApplication1
 build_property._RazorSourceGeneratorDebug = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/AirCraftStatus.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWlyQ3JhZnRTdGF0dXMuY3NodG1s
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/FlightSchedules.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmxpZ2h0U2NoZWR1bGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/FlightSchedules.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRmxpZ2h0U2NoZWR1bGVzLmNzaHRtbA==
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/FlightStatus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmxpZ2h0U3RhdHVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/MonitorIncd.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTW9uaXRvckluY2QuY3NodG1s
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/MonitorIncd.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW9uaXRvckluY2QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJpdmFjeS5jc2h0bWw=
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/ReportIncident.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVwb3J0SW5jaWRlbnQuY3NodG1s
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/ReportIncident.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0SW5jaWRlbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Routes.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUm91dGVzLmNzaHRtbA==
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/Routes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm91dGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/SeatSelection.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2VhdFNlbGVjdGlvbi5jc2h0bWw=
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/ScheduleFlights.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2NoZWR1bGVGbGlnaHRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/SeeAmenities.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2VlQW1lbml0aWVzLmNzaHRtbA==
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/SeatSelection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VhdFNlbGVjdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/SeeAmenities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VlQW1lbml0aWVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/TrackCargo.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVHJhY2tDYXJnby5jc2h0bWw=
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/TrackCargo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhY2tDYXJnby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/mohamed0-0mourad/Code/final projects/Airline/WebApplication1/WebApplication1/Pages/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-vri0k6kfv3
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Coding/SQL/Project/Airline/WebApplication1/WebApplication1/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-g6ltozs93r
