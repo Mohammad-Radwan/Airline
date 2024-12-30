@@ -2,75 +2,49 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebApplication1.Models;
 
-namespace WebApplication1.Pages;
-
-public class FlightStatus : PageModel
+namespace WebApplication1.Pages
 {
-    private readonly FlightStatusModel _flightStatusModel;
-    public void OnGet()
+    public class FlightStatus : PageModel
     {
-        
-    }
-    
-    public FlightStatus()
-    {
-        _flightStatusModel = new FlightStatusModel();
-    }
-    
-    
-    public IActionResult OnGetGetFlightDetails(string FlightID, DateTimeOffset DepartTime)
-    {
-        try
+        private readonly FlightStatusModel _flightStatusModel;
+
+        [BindProperty]
+        public FlightStatusContainerObject FlightStatusVM { get; set; }
+
+        public FlightStatus()
         {
-            var flightDetails = _flightStatusModel.GetFlightDetails(FlightID, DepartTime)[0];
-            
-            // Assuming flightDetails contains the necessary information
-            var result = new
+            _flightStatusModel = new FlightStatusModel();
+            FlightStatusVM = new FlightStatusContainerObject();
+        }
+
+        public void OnGet()
+        {
+            FlightStatusVM.SearchPerformed = false;
+        }
+
+        public IActionResult OnPost()
+        {
+            try
             {
-                success = new
+                var flightDetails = _flightStatusModel.GetFlightDetails(FlightStatusVM.FlightID);
+
+                if (flightDetails != null && flightDetails.Count > 0)
                 {
-                    flightNumber = flightDetails.FlightID,
-                    status = flightDetails.FlightStatus,
-                    departureAirport = flightDetails.FlightDepartTime,
-                    arrivalAirport = flightDetails.FlightArrivalTime,
-                    departureTime = flightDetails.FlightDepartTime.ToString("HH:mm"),
-                    arrivalTime = flightDetails.FlightArrivalTime.ToString("HH:mm"),
-                    progress = CalculateFlightProgress(flightDetails),
-                    // conditions = new[]
-                    // {
-                    //     new { status = "success", message = "Weather conditions favorable" },
-                    //     new { status = "success", message = "All systems operational" },
-                    //     new { status = GetFlightConditionStatus(flightDetails), 
-                    //           message = GetFlightConditionMessage(flightDetails) }
-                    // }
+                    // Store the first flight found
+                    FlightStatusVM = flightDetails[0];
                 }
-            };
-            
-            return new JsonResult(result);
+                else
+                {
+                    FlightStatusVM.ErrorMessage = "No flight found with this ID.";
+                }
+            }
+            catch (Exception ex)
+            {
+                FlightStatusVM.ErrorMessage = "An error occurred while retrieving flight details.";
+            }
+
+            FlightStatusVM.SearchPerformed = true;
+            return Page();
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Failed to get flight details: {ex.Message}");
-            return new JsonResult(new { error = "Failed to get flight details" }) 
-            { 
-                StatusCode = 500 
-            };
-        }
     }
-
-    private int CalculateFlightProgress(FlightStatusContainerObject flight)
-    {
-        // Add your progress calculation logic here
-        return 0; // Placeholder
-    }
-
-    private string GetFlightConditionStatus(FlightStatusContainerObject flight)
-    {
-        // Add your condition status logic here
-        return "success"; // Placeholder string GetFlightConditionMessage(FlightStatusContainerObject flight)
-    
-        // Add your condition message logic here
-        return "Flight proceeding as scheduled"; // Placeholder
-    }
-
 }

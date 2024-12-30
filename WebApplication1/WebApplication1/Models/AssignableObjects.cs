@@ -53,7 +53,7 @@ public class IncidentContainerObject()
 }
 
 
-public class FlightStatusContainerObject()
+public class FlightStatusContainerObject
 {
     public string FlightID { get; set; }
     public string FlightStatus { get; set; }
@@ -63,4 +63,7 @@ public class FlightStatusContainerObject()
     public string FlightAirCraft { get; set; }
     public int FlightDuration { get; set; }
     
+    // Simple properties for form handling
+    public bool SearchPerformed { get; set; }
+    public string ErrorMessage { get; set; }
 }

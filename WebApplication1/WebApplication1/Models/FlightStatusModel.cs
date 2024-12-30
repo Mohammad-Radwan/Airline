@@ -4,18 +4,18 @@ namespace WebApplication1.Models;
 
 public class FlightStatusModel
 {
-    public List<FlightStatusContainerObject> GetFlightDetails(string FlightID, DateTimeOffset DepartTime)
+    public List<FlightStatusContainerObject> GetFlightDetails(string FlightID)
     {
         SqlQueryHelper sqh = new SqlQueryHelper();
 
         List<SqlParameter> parameters = new List<SqlParameter>
         {
             new SqlParameter("@FlightID", SqlDbType.VarChar, 50) { Value = FlightID },
-            new SqlParameter("@DepartTime", SqlDbType.DateTimeOffset) { Value = DepartTime }
+            // new SqlParameter("@DepartTime", SqlDbType.DateTimeOffset) { Value = DepartTime }
         };
 
-        string query = @"SELECT * FROM FLIGHT WHERE fid = @FlightID AND depart_time = @DepartTime;";
-
+        string query = @"SELECT * FROM FLIGHT WHERE fid = @FlightID;";
+        Console.WriteLine($"FligthStatus Query: {query}");
         var result = sqh.MakeCommandWithReturn(
             query,
             sqh.GetConnectionObject(),
