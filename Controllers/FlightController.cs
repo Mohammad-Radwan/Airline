@@ -88,118 +88,98 @@ public class FlightController : Controller
 }
 
 
-public IActionResult Book(string searchResult, DateTime departureTime)
-{
-
-    var bookingModel = new BookingViewModel
+    public IActionResult Book(string searchResult, DateTime departureTime)
     {
-        Flight = new Flight(),
-        Route = new Route(),
-        AvailableClasses = new List<TicketClassInfo>
+        if (string.IsNullOrEmpty(searchResult))
         {
-            new TicketClassInfo { Name = "Economy", PriceMultiplier = 1.0m },
-            new TicketClassInfo { Name = "First", PriceMultiplier = 1.5m },
-            new TicketClassInfo { Name = "Business", PriceMultiplier = 2.0m }
+            TempData["ErrorMessage"] = "Invalid flight selection.";
+            return RedirectToAction("Search");
         }
-    };
 
-
-    string formattedDate = departureTime.ToString("yyyy-MM-dd");
-    
-    string query = @"
-        SELECT 
-            f.fid, 
-            f.depart_time, 
-            f.duration, 
-            a.model AS aircraft_model, 
-            r.start_airport, 
-            r.end_airport, 
-            r.base_price 
-        FROM 
-            flight f
-        JOIN 
-            aircraft a ON f.aircraft_id = a.aid
-        JOIN 
-            route r ON f.route_id = r.ro_id
-        WHERE 
-            f.depart_time LIKE @DepartureTime AND f.fid = @FlightID";
-
-    using (var conn = new MySqlConnection(connStr))
-    {
-        try
+        var bookingModel = new BookingViewModel
         {
-            conn.Open();
-            using (var cmd = new MySqlCommand(query, conn))
+            Flight = new Flight(),
+            Route = new Route(),
+            AvailableClasses = new List<TicketClassInfo>
             {
-                cmd.Parameters.AddWithValue("@DepartureTime", $"{formattedDate}%");
-                cmd.Parameters.AddWithValue("@FlightID", $"{searchResult}");
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        bookingModel.Flight = new Flight
-                        {
-                            fid = reader["fid"].ToString(),
-                            depart_time = reader.GetDateTime("depart_time"),
-                            duration = reader.GetTimeSpan("duration"),
-                            aircraft_id = reader["aircraft_model"].ToString()
-                        };
-
-
-                        bookingModel.Route = new Route
-                        {
-                            start_airport = reader["start_airport"].ToString(),
-                            end_airport = reader["end_airport"].ToString(),
-                            base_price = reader.GetDecimal("base_price")
-                        };
-                    }
-                    else
-                    {
-                        TempData["ErrorMessage"] = "No flight found matching the search criteria.";
-                    }
-                }
+                new TicketClassInfo { Name = "Economy", PriceMultiplier = 1.0m },
+                new TicketClassInfo { Name = "First", PriceMultiplier = 1.5m },
+                new TicketClassInfo { Name = "Business", PriceMultiplier = 2.0m }
             }
-        }
-        catch (Exception ex)
-        {
-            TempData["ErrorMessage"] = "An error occurred while fetching the flight details: " + ex.Message;
-        }
-    }
+        };
 
-    // Return the booking model to the view
-    return View(bookingModel);
-}
-    
-    [HttpPost]
-    public IActionResult ConfirmBooking(string flightNumber, string ticketClass)
-    {
+        string formattedDate = departureTime.ToString("yyyy-MM-dd");
+        
+        string query = @"
+            SELECT 
+                f.fid, 
+                f.depart_time, 
+                f.duration, 
+                a.model AS aircraft_model, 
+                r.start_airport, 
+                r.end_airport, 
+                r.base_price 
+            FROM 
+                flight f
+            JOIN 
+                aircraft a ON f.aircraft_id = a.aid
+            JOIN 
+                route r ON f.route_id = r.ro_id
+            WHERE 
+                DATE(f.depart_time) = @DepartureTime 
+                AND f.fid = @FlightID";
 
-        using (var connection = new MySql.Data.MySqlClient.MySqlConnection(connStr))
+        using (var conn = new MySqlConnection(connStr))
         {
             try
             {
-                connection.Open();
-
-                string query = "INSERT INTO TICKET (Passport_No, Class, Pay_Status, Flight_id, Payment_method, discount, is_cancelled) " +
-                               "VALUES (@UserPassportNo, @ChoosenClass, 'Paid', @ChoosenFlightID, 'Credit Card', '0%', 0);";
-
-                using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+                conn.Open();
+                using (var cmd = new MySqlCommand(query, conn))
                 {
-                    command.Parameters.AddWithValue("@UserPassportNo", SessionID.Instance.passengerID);
-                    command.Parameters.AddWithValue("@ChoosenClass", ticketClass);
-                    command.Parameters.AddWithValue("@ChoosenFlightID", flightNumber);
+                    cmd.Parameters.AddWithValue("@DepartureTime", formattedDate);
+                    cmd.Parameters.AddWithValue("@FlightID", searchResult);
 
-                    command.ExecuteNonQuery();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            bookingModel.Flight = new Flight
+                            {
+                                fid = reader["fid"].ToString(),
+                                depart_time = reader.GetDateTime("depart_time"),
+                                duration = TimeSpan.FromMinutes(Convert.ToInt32(reader["duration"])),
+                                aircraft_id = reader["aircraft_model"].ToString()
+                            };
+
+                            bookingModel.Route = new Route
+                            {
+                                start_airport = reader["start_airport"].ToString(),
+                                end_airport = reader["end_airport"].ToString(),
+                                base_price = reader.GetDecimal("base_price")
+                            };
+                        }
+                        else
+                        {
+                            TempData["ErrorMessage"] = "Flight not found.";
+                            return RedirectToAction("Search");
+                        }
+                    }
                 }
-
-                return RedirectToAction("BookingSuccess"); 
             }
             catch (Exception ex)
             {
-                return RedirectToAction("BookingError", new { message = ex.Message });
+                TempData["ErrorMessage"] = "An error occurred while fetching the flight details: " + ex.Message;
+                return RedirectToAction("Search");
             }
         }
+
+        if (bookingModel.Flight.fid == null)
+        {
+            TempData["ErrorMessage"] = "Unable to load flight details.";
+            return RedirectToAction("Search");
+        }
+
+        return View(bookingModel);
     }
 
     public IActionResult BookingSuccess()

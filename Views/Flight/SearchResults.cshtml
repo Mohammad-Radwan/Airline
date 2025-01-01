@@ -23,25 +23,24 @@ ViewData["Title"] = "Flight Search Results";
                     <tbody>
                     @foreach (var result in Model)
                     {
-                        <tr>
-                            <td>@result.flight.fid</td>
-                            <td>@result.route.start_airport - @result.route.end_airport</td>
-                            <td>@result.flight.aircraft_id</td>
-                            <td>@result.flight.depart_time.ToString("HH:mm")</td>
-                            <td>@result.flight.duration.ToString(@"hh\:mm")</td>
-                            <td>$@result.route.base_price.ToString("N2")</td>
-                            <td>
-                                <a href="@Url.Action("Book", "Flight", new { searchResult = result})"
-                                   class="btn btn-primary btn-sm">
-                                    Book Now
-                                </a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>@result.flight.fid</td>
+                        <td>@result.route.start_airport - @result.route.end_airport</td>
+                        <td>@result.flight.aircraft_id</td>
+                        <td>@result.flight.depart_time.ToString("HH:mm")</td>
+                        <td>@result.flight.duration.ToString(@"hh\:mm")</td>
+                        <td>$@result.route.base_price.ToString("N2")</td>
+                        <td>
+                            <a href="@Url.Action("Book", "Flight", new { searchResult = result.flight.fid, departureTime = result.flight.depart_time })"
+                               class="btn btn-primary btn-sm">
+                                Book Now
+                            </a>
+                        </td>
+                    </tr>
                     }
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
 </div>
