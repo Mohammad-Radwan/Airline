@@ -11,17 +11,16 @@
                 <div class="card-body">
                     @using (Html.BeginForm("SubmitRefund", "Passenger", FormMethod.Post))
                     {
-                        @Html.HiddenFor(m => m.TicketId)
-                        @Html.HiddenFor(m => m.PassengerId)
+                        @Html.HiddenFor(m => m.Ticket_ID)
                         
                         <div class="mb-4">
                             <label class="form-label">Please describe your reason for requesting a refund:</label>
-                            @Html.TextAreaFor(m => m.Complaint, new { @class = "form-control", rows = "5", required = "required" })
+                            @Html.TextAreaFor(m => m.description_, new { @class = "form-control", rows = "5", required = "required" })
                         </div>
                         <div class="row">
 
                             <div class="col-12 mb-4">
-                                <a href="@Url.Action("TicketDetails", "Passenger", new { id = Model.TicketId })" class="btn btn-outline-primary">
+                                <a href="@Url.Action("TicketDetails", "Passenger", new { id = Model.Ticket_ID })" class="btn btn-outline-primary">
                                     <i class="bi bi-arrow-left"></i> cancel
                                 </a>
                             </div>

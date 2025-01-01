@@ -1,8 +1,14 @@
 ﻿public class RefundRequest
 {
-    public string TicketId { get; set; }
-    public string PassengerId { get; set; }
-    public string Complaint { get; set; }
-    public DateTime RequestDate { get; set; }
-    public string Status { get; set; } = "Pending";
+    // Ticket_ID, Amount, date_, Status_, description_
+    public string Ticket_ID { get; set; }
+    
+    public int Amount { get; set; }
+    
+    public DateTime date_ { get; set; }
+    
+    public string Status_ { get; set; } = "Pending";
+    
+    public string description_ { get; set; }
+
 }
