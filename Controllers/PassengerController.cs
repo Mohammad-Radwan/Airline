@@ -1,195 +1,293 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
+using Airline.Models;
 
 public class PassengerController : Controller
 {
-    public IActionResult PassengerProfile()
-    {
-        var profile = new PassengerProfile
-        {
-            PassengerId = "P123456",
-            Name = "Jurica Koletić",
-            Email = "Jurica.Koletić@email.com",
-            PhoneNumber = "+1-234-567-8900",
-            Gender = "Male",
-            DateOfBirth = new DateTime(1990, 1, 1),
-            PassportNumber = "AB1234567",
-            Nationality = "Russia",
-            Address = "123 Aviation Street, Skytown, ST 12345",
-            MileagePoints = 50000,
-            MembershipTier = "Gold"
-        };
+    string connStr = "server=localhost;port=3306;user=root;password=mradwan#1MySql;database=airline;";
 
-        return View(profile);
-    }
 
-    public IActionResult TicketRecord()
+    [HttpGet("passenger/profile/{Passport_No}")]
+    public IActionResult PassengerProfile(string Passport_No)
     {
-        var tickets = new List<Ticket>
+        Passenger passenger = null;
+
+
+        using (var conn = new MySqlConnection(connStr))
         {
-            new Ticket
+            conn.Open();
+            string query = "SELECT * FROM passenger WHERE Passport_No = @Passport_No";
+            using (var cmd = new MySqlCommand(query, conn))
             {
-                TicketId = "T123456",
-                PassengerId = "P123456",
-                PaymentStatus = "Paid",
-                Price = 499.99m,
-                PurchaseDate = DateTime.Now.AddDays(-30),
-                TicketClass = "Business",
-                PaymentMethod = "Credit Card",
-                Discount = 50.00m,
-                Flight = new Flight
+                cmd.Parameters.AddWithValue("@Passport_No", Passport_No);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    FlightNumber = "FL789",
-                    AircraftModel = "Boeing 787",
-                    DepartureTime = DateTime.Now.AddDays(15),
-                    ArrivalTime = DateTime.Now.AddDays(15).AddHours(8),
-                    Duration = TimeSpan.FromHours(8),
-                    Route = new Route()
+                    if (reader.Read())
                     {
-                        DepartureAirport = "JFK",   
-                        ArrivalAirport = "CAI",
-                        Distance = 5541.00,
-                        BasePrice = 399.99m
+                        passenger = new Passenger
+                        {
+                            Passport_No = reader["Passport_No"].ToString(),
+                            Name_ = reader["name_"].ToString(),
+                            Gender = reader["gender"].ToString(),
+                            Address = reader["Address"].ToString(),
+                            Birth_Date = reader.GetDateTime("birth_date"),
+                            Contact_Info = reader["contact_info"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            Nationality = reader["Nationality"].ToString(),
+                        };
                     }
-                },
-                BoardingPass = new BoardingPass
-                {
-                    TicketId = "T123456",
-                    SeatNumber = "12A",
-                    CheckInGate = "B12",
-                    CheckOutGate = "C45"
                 }
-            },
-            
-            new Ticket
-            {
-                TicketId = "T224336",
-                PassengerId = "P123456",
-                PaymentStatus = "Paid",
-                Price = 149.99m,
-                PurchaseDate = DateTime.Now.AddDays(-50),
-                TicketClass = "Economy",
-                PaymentMethod = "Credit Card",
-                Discount = 50.00m,
-                Flight = new Flight
-                {
-                    FlightNumber = "FL777",
-                    AircraftModel = "Boeing 747",
-                    DepartureTime = DateTime.Now.AddDays(-15),
-                    ArrivalTime = DateTime.Now.AddDays(-15).AddHours(8),
-                    Duration = TimeSpan.FromHours(8),
-                    Route = new Route()
-                    {
-                    DepartureAirport = "CAI",   
-                    ArrivalAirport = "SAE",
-                    Distance = 6345.00,
-                    BasePrice = 99.99m
-                }
-                },
-                BoardingPass = new BoardingPass
-                {
-                    TicketId = "T224336",
-                    SeatNumber = "144c",
-                    CheckInGate = "E36",
-                    CheckOutGate = "B05"
-                }
-            },
-            
-            
-        };
+            }
+        }
 
-        return View(tickets);
+        if (passenger == null)
+        {
+            return NotFound(); // Return a 404 if no passenger is found
+        }
+
+
+        return View(passenger);
     }
 
+
+    [HttpGet("passenger/TicketRecord/{Passport_No}")]
+    public IActionResult TicketRecord(string Passport_No)
+    {
+        var viewModel = new TicketRecordViewModel
+        {
+            Tickets = new List<Ticket>(),
+            Flights = new List<Flight>(),
+            Routes = new List<Route>()
+        };
+
+        using (var conn = new MySqlConnection(connStr))
+        {
+            conn.Open();
+            string query = """
+                           SELECT 
+                               t.Ticket_ID, 
+                               t.Class, 
+                               t.Pay_Status, 
+                               f.depart_time, 
+                               r.start_airport, 
+                               r.end_airport, 
+                               r.base_price
+                           FROM 
+                               Ticket t
+                           JOIN 
+                               Flight f ON t.Flight_ID = f.fid
+                           JOIN 
+                               Route r ON f.route_id = r.ro_id
+                           WHERE 
+                               t.Passport_No = @Passport_No;
+                           """;
+
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@Passport_No", Passport_No);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        viewModel.Tickets.Add(new Ticket
+                        {
+                            Ticket_ID = reader["Ticket_ID"].ToString(),
+                            Class = reader["Class"].ToString(),
+                            Pay_Status = reader["Pay_Status"].ToString()
+                        });
+
+                        viewModel.Flights.Add(new Flight
+                        {
+                            depart_time = reader.GetDateTime("depart_time")
+                        });
+
+                        viewModel.Routes.Add(new Route
+                        {
+                            start_airport = reader["start_airport"].ToString(),
+                            end_airport = reader["end_airport"].ToString(),
+                            base_price = reader.GetDecimal("base_price")
+                        });
+                    }
+                }
+            }
+        }
+
+        return View(viewModel);
+    }
+
+    [HttpGet("passenger/TicketDetails/{id}")]
     public IActionResult TicketDetails(string id)
     {
-        var ticket = new Ticket
-        {
-            TicketId = id,
-            PassengerId = "P123456",
-            PaymentStatus = "Paid",
-            Price = 499.99m,
-            PurchaseDate = DateTime.Now.AddDays(-30),
-            TicketClass = "Business",
-            PaymentMethod = "Credit Card",
-            Discount = 50.00m,
-            Flight = new Flight
-            {
-                FlightNumber = "FL789",
-                AircraftModel = "Boeing 787",
-                DepartureTime = DateTime.Now.AddDays(15),
-                ArrivalTime = DateTime.Now.AddDays(15).AddHours(8),
-                Duration = TimeSpan.FromHours(8),
-                Route = new Route()
-                {
-                    DepartureAirport = "JFK",   
-                    ArrivalAirport = "CAI",
-                    Distance = 5541.00,
-                    BasePrice = 399.99m
-                }
-            },
-            BoardingPass = new BoardingPass
-            {
-                TicketId = id,
-                SeatNumber = "12A",
-                CheckInGate = "B12",
-                CheckOutGate = "C45"
-            }
-        };
+        Airline.Models.TicketDetails ticketDetails = new Airline.Models.TicketDetails();
 
-        return View(ticket);
+        using (var conn = new MySqlConnection(connStr))
+        {
+            conn.Open();
+            string query = """
+                           SELECT *
+                           FROM 
+                               Ticket t
+                           JOIN 
+                               Flight f ON t.Flight_ID = f.fid
+                           JOIN 
+                               Route r ON f.route_id = r.ro_id
+                           WHERE 
+                               t.Ticket_ID = @Ticket_ID;
+                           """;
+
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@Ticket_ID", id);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        // Handle Discount
+                        string discountStr = reader["discount"].ToString();
+                        decimal discountValue = 0;
+                        if (!string.IsNullOrWhiteSpace(discountStr) && discountStr.EndsWith("%"))
+                        {
+                            discountStr = discountStr.TrimEnd('%');
+                            discountValue = decimal.Parse(discountStr) / 100;
+                        }
+
+                        // Convert duration to TimeSpan
+                        TimeSpan flightDuration;
+                        if (reader["duration"] is int durationInt)
+                        {
+                            flightDuration = TimeSpan.FromMinutes(durationInt); // Adjust this based on your data
+                        }
+                        else if (reader["duration"] is TimeSpan durationTimeSpan)
+                        {
+                            flightDuration = durationTimeSpan;
+                        }
+                        else
+                        {
+                            throw new InvalidCastException("Invalid duration data type");
+                        }
+
+                        ticketDetails.ticket = new Ticket
+                        {
+                            Ticket_ID = reader["Ticket_ID"].ToString(),
+                            Passport_No = reader["Passport_No"].ToString(),
+                            Class = reader["Class"].ToString(),
+                            Pay_Status = reader["Pay_Status"].ToString(),
+                            Payment_method = reader["Payment_method"].ToString(),
+                            Seat_id = reader["seat_id"].ToString(),
+                            Discount = discountValue,
+                            Is_cancelled = reader.GetBoolean("is_cancelled")
+                        };
+
+                        ticketDetails.flight = new Flight
+                        {
+                            fid = reader["fid"].ToString(),
+                            depart_time = reader.GetDateTime("depart_time"),
+                            status_ = reader["status_"].ToString(),
+                            arrival_time = reader.GetDateTime("arrival_time"),
+                            duration = flightDuration // Correctly set the duration
+                        };
+
+                        ticketDetails.route = new Route
+                        {
+                            ro_id = reader["ro_id"].ToString(),
+                            start_airport = reader["start_airport"].ToString(),
+                            end_airport = reader["end_airport"].ToString(),
+                            distance = reader.GetDouble("distance"),
+                            duration_in_hours = reader.GetDouble("duration_in_hours"),
+                            base_price = reader.GetDecimal("base_price")
+                        };
+                    }
+                }
+            }
+        }
+
+        return View(ticketDetails);
     }
+
 
     public IActionResult RefundRequest(string id)
     {
         var refundRequest = new RefundRequest
         {
-            TicketId = id,
-            PassengerId = "P123456", 
-            RequestDate = DateTime.Now
+            Ticket_ID = id,
+            date_ = DateTime.Now
         };
 
         return View(refundRequest);
     }
 
-  
+
     public IActionResult SubmitRefund(RefundRequest request)
     {
+        // Setting a success message to TempData
         TempData["SuccessMessage"] = "Your refund request has been recorded. We will inform you of any updates.";
+
+        // Define the query to insert the refund request into the refund table
+        string query = @"
+        INSERT INTO refund (Ticket_ID, Amount, date_, Status_, description_)
+        VALUES (@Ticket_ID, NULL, @RequestDate, 'Pending', @Description)";
+
+        using (var conn = new MySqlConnection(connStr))
+        {
+            try
+            {
+                conn.Open();
+
+             
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                   
+                    cmd.Parameters.AddWithValue("@Ticket_ID", request.Ticket_ID);
+                    cmd.Parameters.AddWithValue("@RequestDate", DateTime.Now); 
+                    cmd.Parameters.AddWithValue("@Description",
+                        request.description_); 
+
+                 
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+               
+                TempData["ErrorMessage"] = "You Already Have A Pending Request ";
+            }
+        }
+
         
-        return RedirectToAction("TicketDetails", new { id = request.TicketId });
+        return RedirectToAction("TicketDetails", new { id = request.Ticket_ID });
     }
 
-    
-    public IActionResult BaggageRecord()
-    {
 
-        var baggageList = new List<Baggage>
+    [HttpGet("passenger/BaggageRecord/{Passport_No}")]
+
+    public IActionResult BaggageRecord(string Passport_No)
+    {
+        var baggageList = new List<Baggage>();
+
+        using (var conn = new MySqlConnection(connStr))
         {
-            new Baggage
+            conn.Open();
+            string query = "SELECT * FROM baggage WHERE Passport_No = @Passport_No";
+            using (var cmd = new MySqlCommand(query, conn))
             {
-                BaggageId = "B123456",
-                PassengerId = "P123456",
-                BaggageTag = "TAG001",
-                CargoId = "CARGO789",
-                Weight = 23.5,
-                Type = "Checked Baggage",
-                FlightNumber = "FL789",
-                CheckInDate = DateTime.Now.AddDays(-1),
-                Status = "In Transit"
-            },
-            new Baggage
-            {
-                BaggageId = "B123457",
-                PassengerId = "P123456",
-                BaggageTag = "TAG002",
-                CargoId = "CARGO790",
-                Weight = 18.2,
-                Type = "Checked Baggage",
-                FlightNumber = "FL456",
-                CheckInDate = DateTime.Now.AddDays(-30),
-                Status = "Delivered"
+                cmd.Parameters.AddWithValue("@Passport_No", Passport_No);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        baggageList.Add(new Baggage
+                        {
+                            TAG = reader["TAG"].ToString(),
+                            Cargo_ID = reader["Cargo_ID"].ToString(),
+                            Weight_ = reader.GetDouble("Weight_"),
+                            Type_ = reader["Type_"].ToString(),
+                            Board_No = reader["Board_No"].ToString(),
+                            Passport_No = reader["Passport_No"].ToString()
+                        });
+                    }
+                }
             }
-        };
+        }
 
         return View(baggageList);
     }

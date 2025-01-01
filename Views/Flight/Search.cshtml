@@ -17,6 +17,11 @@
                             <input type="date" id="searchDate" name="searchDate" class="form-control" required 
                                    min="@DateTime.Now.ToString("yyyy-MM-dd")" />
                         </div>
+                        <div class="text-start">
+                            <a href="@Url.Action("profile", "Passenger", new { id = SessionID.Instance.passengerID })" class="btn btn-outline-danger">
+                                <i class="bi bi-arrow-left"></i> Back to Profile
+                            </a>
+                        </div>
                         <div class="text-end">
                             <button type="submit" class="btn btn-primary">Search Flights</button>
                         </div>

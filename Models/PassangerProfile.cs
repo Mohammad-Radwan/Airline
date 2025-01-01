@@ -12,4 +12,5 @@
     public string Address { get; set; }
     public int MileagePoints { get; set; }
     public string MembershipTier { get; set; }
+    
 }

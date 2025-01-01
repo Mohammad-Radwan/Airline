@@ -1,12 +1,16 @@
 ﻿public class Baggage
 {
-    public string BaggageId { get; set; }
-    public string PassengerId { get; set; }
-    public string BaggageTag { get; set; }
-    public string CargoId { get; set; }
-    public double Weight { get; set; }
-    public string Type { get; set; }
-    public string FlightNumber { get; set; }
-    public DateTime CheckInDate { get; set; }
-    public string Status { get; set; }
+    // TAG, Cargo_ID, Weight_, Type_, Board_No, Passport_No
+    
+    public string TAG { get; set; }
+    
+    public string Cargo_ID { get; set; }
+    
+    public double Weight_ { get; set; }
+    
+    public string Type_ { get; set; }
+    
+    public string Board_No { get; set; }
+    
+    public string Passport_No { get; set; }
 }

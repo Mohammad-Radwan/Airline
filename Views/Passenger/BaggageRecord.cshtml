@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>Your Baggage Records</h2>
-                <a href="@Url.Action("PassengerProfile", "Passenger")" class="btn btn-outline-primary">
+                <a href="@Url.Action("profile", "Passenger", new { id = SessionID.Instance.passengerID })" class="btn btn-outline-primary">
                     <i class="bi bi-arrow-left"></i> Back to Profile
                 </a>
             </div>
@@ -18,24 +18,16 @@
                             <th>Cargo ID</th>
                             <th>Weight (kg)</th>
                             <th>Type</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var baggage in Model)
                         {
                             <tr>
-                                <td>@baggage.BaggageTag</td>
-                                <td>@baggage.CargoId</td>
-                                <td>@baggage.Weight</td>
-                                <td>@baggage.Type</td>
-                                <td>
-                                    <span class="badge bg-@(baggage.Status == "Delivered" ? "success" : 
-                                                         baggage.Status == "In Transit" ? "primary" : 
-                                                         baggage.Status == "Lost" ? "danger" : "warning")">
-                                        @baggage.Status
-                                    </span>
-                                </td>
+                                <td>@baggage.TAG</td>
+                                <td>@baggage.Cargo_ID</td>
+                                <td>@baggage.Weight_</td>
+                                <td>@baggage.Type_</td>
                             </tr>
                         }
                     </tbody>

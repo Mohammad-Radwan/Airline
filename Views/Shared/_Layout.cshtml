@@ -25,17 +25,11 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
+                    @{
+                    SessionID.Instance.passengerID = "AA123456";
+                    }
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Passenger" asp-action="PassengerProfile">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Flight" asp-action="Search">Search</a>
-                    </li>
-                    <li class= "nav-item">
-                        <a asp-controller="Admin" asp-action="ScheduleFlights" class="nav-link">Admin Portal</a>
-                    </li>
-                    <li class= "nav-item">
-                        <a asp-controller="Flight_Crew_Member" asp-action="seat_selection" class="nav-link">Seat Selection</a>
+                        <a class="nav-link" asp-area="" asp-controller="Passenger" asp-action="PassengerProfile" asp-route-Passport_No="@SessionID.Instance.passengerID">Profile</a>
                     </li>
                     
                 </ul>

@@ -1,9 +1,19 @@
 ﻿public class Flight
 {
-    public string FlightNumber { get; set; }
-    public string AircraftModel { get; set; }
-    public DateTime DepartureTime { get; set; }
-    public DateTime ArrivalTime { get; set; }
-    public TimeSpan Duration { get; set; }
-    public Route Route { get; set; }
+    
+    // fid, aircraft_id, depart_time, status_, route_id, arrival_time, duration
+    
+    public string fid { get; set; }
+    
+    public string aircraft_id { get; set; }
+    
+    public DateTime depart_time { get; set; }
+    
+    public string status_ { get; set; }
+    
+    public string route_id { get; set; }
+    
+    public DateTime arrival_time { get; set; }
+    
+    public TimeSpan duration { get; set; }
 }

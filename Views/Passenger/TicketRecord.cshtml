@@ -1,44 +1,54 @@
-﻿@model IEnumerable<Ticket>
+﻿@model TicketRecordViewModel
 
 <div class="container py-5">
     <div class="row">
         <div class="col-12">
-            <h2 class="mb-4">Your Ticket Records</h2>
+            <div class="row">
+                <div class="col-9">
+                    <h2 class="mb-4">Your Ticket Records</h2>
+                </div>
+                <div class="col-3">
+                    <a href="@Url.Action("profile", "Passenger", new { id = SessionID.Instance.passengerID })" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left"></i> Back to Profile
+                    </a>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead class="table-light">
-                        <tr>
-                            <th>Ticket ID</th>
-                            <th>Flight</th>
-                            <th>Date</th>
-                            <th>Class</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
+                    <tr>
+                        <th>Ticket ID</th>
+                        <th>Route</th>
+                        <th>Departure Time</th>
+                        <th>Class</th>
+                        <th>Base Price</th>
+                        <th>Payment Status</th>
+                        <th>Action</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var ticket in Model)
-                        {
-                            <tr>
-                                <td>@ticket.TicketId</td>
-                                <td>@ticket.Flight.Route.DepartureAirport - @ticket.Flight.Route.ArrivalAirport</td>
-                                <td>@ticket.Flight.DepartureTime.ToString("MMM dd, yyyy")</td>
-                                <td>@ticket.TicketClass</td>
-                                <td>$@ticket.Price.ToString("N2")</td>
-                                <td>
-                                    <span class="badge bg-@(ticket.PaymentStatus == "Paid" ? "success" : "warning")">
-                                        @ticket.PaymentStatus
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("TicketDetails", "Passenger", new { id = ticket.TicketId })" 
-                                       class="btn btn-primary btn-sm">
-                                        View Details
-                                    </a>
-                                </td>
-                            </tr>
-                        }
+                    @for (int i = 0; i < Model.Tickets.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model.Tickets[i].Ticket_ID</td>
+                            <td>@Model.Routes[i].start_airport - @Model.Routes[i].end_airport</td>
+                            <td>@Model.Flights[i].depart_time.ToString("MMM dd, yyyy hh:mm tt")</td>
+                            <td>@Model.Tickets[i].Class</td>
+                            <td>$@Model.Routes[i].base_price.ToString("N2")</td>
+                            <td>
+                                <span class="badge bg-@(Model.Tickets[i].Pay_Status == "Paid" ? "success" : "warning")">
+                                    @Model.Tickets[i].Pay_Status
+                                </span>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("TicketDetails", "Passenger", new { id = Model.Tickets[i].Ticket_ID })"
+                                   class="btn btn-primary btn-sm">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
