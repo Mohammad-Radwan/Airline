@@ -9,7 +9,7 @@ using System.Data;
 
 public class SeeAmenitiesModel : PageModel
 {
-    private readonly string conString = "Server=localhost,1433;Database=AIRLINE;User Id=SA;Password=Mohamed365;TrustServerCertificate=True;";
+    private readonly string conString = "Server=YOUSSEF_MOHAMAD\\MYMSSQLSERVER;Database=airline_3;Trusted_Connection=True;TrustServerCertificate=True;";
     public List<Supplier> Sliers {get; set;} = new List<Supplier>();
     public List<Supply> Suplies {get;set;} = new List<Supply>();
 
