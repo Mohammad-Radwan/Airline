@@ -181,6 +181,39 @@ public class FlightController : Controller
 
         return View(bookingModel);
     }
+    
+    
+    [HttpPost]
+    public IActionResult ConfirmBooking(string flightNumber, string ticketClass)
+    {
+
+        using (var connection = new MySql.Data.MySqlClient.MySqlConnection(connStr))
+        {
+            try
+            {
+                connection.Open();
+
+                string query = "INSERT INTO TICKET (Passport_No, Class, Pay_Status, Flight_id, Payment_method, discount, is_cancelled) " +
+                               "VALUES (@UserPassportNo, @ChoosenClass, 'Paid', @ChoosenFlightID, 'Credit Card', '0%', 0);";
+
+                using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@UserPassportNo", SessionID.Instance.passengerID);
+                    command.Parameters.AddWithValue("@ChoosenClass", ticketClass);
+                    command.Parameters.AddWithValue("@ChoosenFlightID", flightNumber);
+
+                    command.ExecuteNonQuery();
+                }
+
+                return RedirectToAction("BookingSuccess"); 
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("BookingError", new { message = ex.Message });
+            }
+        }
+    }
+
 
     public IActionResult BookingSuccess()
     {
@@ -190,7 +223,7 @@ public class FlightController : Controller
 
     public IActionResult BookingError(string message)
     {
-        TempData["BookingMessage"] = "Your are unable to purchase a ticket at this time.";
+        TempData["BookingMessage"] = "Your are unable to purchase a ticket at this time." + message;
         return RedirectToAction("PassengerProfile", "Passenger", new { Passport_No = SessionID.Instance.passengerID });
     }
 }
