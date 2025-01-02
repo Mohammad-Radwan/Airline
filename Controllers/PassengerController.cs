@@ -107,6 +107,18 @@ public class PassengerController : Controller
             }
         }
 
+        for (int i = 0; i < viewModel.Tickets.Count; i++)
+        {
+            if (viewModel.Tickets[i].Class == "First")
+            {
+                viewModel.Routes[i].base_price = viewModel.Routes[i].base_price * 1.5m;
+            }
+            else if (viewModel.Tickets[i].Class == "Business")
+            {
+                viewModel.Routes[i].base_price = viewModel.Routes[i].base_price * 2.0m;
+            }
+        }
+        
         return View(viewModel);
     }
 
