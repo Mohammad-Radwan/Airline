@@ -172,4 +172,52 @@ public class AccountController : Controller
         }
     }
 
+    
+    public IActionResult ChangePassword()
+    {
+        if (string.IsNullOrEmpty(SessionID.Instance.passengerID))
+        {
+            return RedirectToAction("AcountLogin");
+        }
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult UpdatePassword(string newPassword)
+    {
+        if (string.IsNullOrEmpty(SessionID.Instance.passengerID))
+        {
+            return RedirectToAction("AcountLogin");
+        }
+
+        using (var conn = new MySqlConnection(connStr))
+        {
+            try
+            {
+                conn.Open();
+                string query = "UPDATE passenger SET password = @password WHERE Passport_No = @passportNo";
+                
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@password", newPassword);
+                    cmd.Parameters.AddWithValue("@passportNo", SessionID.Instance.passengerID);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        TempData["SuccessMessage"] = "Password updated successfully!";
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Failed to update password. Please try again.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error updating password: " + ex.Message;
+            }
+        }
+        return RedirectToAction("PassengerLogin");
+    }
 }
