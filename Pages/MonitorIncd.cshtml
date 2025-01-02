@@ -1,0 +1,198 @@
+@page
+@model Airline.WebApplication1.WebApplication1.Pages.MonitorIncdModel
+@{ViewBag.Title = "Incidents";}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="Amenities.css" asp-append-version="true"/>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Admin" asp-action="ScheduleFlights">
+                    <i class="fas fa-plane-departure"></i> Admin Portal
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class= "nav-item">
+                            <a asp-area="" asp-page="/ScheduleFlights" class="nav-link">Schedule Flights</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/SeeAmenities">Oversee Amenities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/TrackCargo">Track Cargo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/MonitorIncd">Monitor Incidents</a>
+                        </li>
+                    </ul>
+                    <div class="navbar-nav">
+                        <a asp-controller="Home" asp-action="Login" class="nav-link">Login</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+@* ------------------------------------------------------------------------------------------------------ *@
+
+    <div class="hero-section text-center">
+        <h1>Flight Incident Reports</h1>
+        <p class="lead">Comprehensive Overview of Aviation Incidents</p>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                Incident Reports Overview
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Flight Route</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th>Casualties</th>
+                            <th>Survivors</th>
+                            <th>Cause</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model.incs != null && Model.incs.Count != 0 )
+                        {@for (int i=0; i<Model.incs.Count;i++)
+                        {
+                            <tr>
+                                <td>@Model.incs[i].Route</td>
+                                <td>@Model.incs[i].Location</td>
+                                <td>@Model.incs[i].Date</td>
+                                <td>
+                                    <span class="badge bg-danger">@Model.incs[i].Casualties</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">@Model.incs[i].Survivors</span>
+                                </td>
+                                <td>@Model.incs[i].Cause</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#incident-@i">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Details
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="incident-@i" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary text-white">
+                                            <h5 class="modal-title">Incident Details - @Model.incs[i].Route</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6 class="fw-bold">Flight Information</h6>
+                                                    <p> @Model.incs[i].Route</p>
+                                                    <p><strong>Location:</strong>@Model.incs[i].Location</p>
+                                                    <p><strong>Date & Time:</strong>@Model.incs[i].Date</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="fw-bold">Casualty Information</h6>
+                                                    <div class="d-flex gap-3">
+                                                        <div class="text-center">
+                                                            <div class="badge bg-danger p-2 mb-2">@Model.incs[i].Casualties</div>
+                                                            <p class="small mb-0">Casualties</p>
+                                                        </div>
+                                                        <div class="text-center">
+                                                            <div class="badge bg-success p-2 mb-2">@Model.incs[i].Survivors</div>
+                                                            <p class="small mb-0">Survivors</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <h6 class="fw-bold">Incident Cause</h6>
+                                            <p>@Model.incs[i].Cause</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-graph-up me-2"></i>
+                        Incident Statistics
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Incidents
+                            <span class="badge bg-primary rounded-pill">@Model.count</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Casualties
+                            <span class="badge bg-danger rounded-pill">@Model.total_cas</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Survivors
+                            <span class="badge bg-success rounded-pill">@Model.total_sur</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            Survival Rate
+                            <span class="badge bg-info rounded-pill">@Model.sur_rate %</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-calendar-event me-2"></i>
+                        Recent Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        @if(Model.incs != null && Model.incs.Count != 0 )
+                        {@for (int i=0;i<Model.incs.Count;i++)
+                        {
+                            <div class="timeline-item">
+                                <div class="timeline-date">@Model.incs[i].Date</div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">@Model.incs[i].Route</h6>
+                                    <p class="small text-muted mb-0">@Model.incs[i].Location</p>
+                                </div>
+                            </div>
+                        }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

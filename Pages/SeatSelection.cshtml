@@ -1,0 +1,164 @@
+@page
+@model Airline.Pages.SeatSelection
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Selection - SkyWay Airways</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../wwwroot/UnifiedStyle.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" asp-page="/Index">SkyWay Airlines</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="FlightSchedules">Flight Schedules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="Routes">Routes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="ReportIncident">Report Incident</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-page="FlightStatus">Flight Status</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-page="SeatSelection">Seat Selection</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <h1 class="mb-4">Seat Selection</h1>
+
+        <!-- Search Form -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Flight ID</label>
+                            <input type="text" class="form-control" asp-for="SeatSelectionVM.FlightID" placeholder="Enter flight ID">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Boarding Pass ID</label>
+                            <input type="text" class="form-control" asp-for="SeatSelectionVM.BoardingID" placeholder="Enter boarding pass ID">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Show Available Seats</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        @if (Model.SeatSelectionVM.SearchPerformed)
+        {
+            @if (!string.IsNullOrEmpty(Model.SeatSelectionVM.ErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    @Model.SeatSelectionVM.ErrorMessage
+                </div>
+            }
+            else if (Model.SeatSelectionVM.AvailableSeats != null && Model.SeatSelectionVM.AvailableSeats.Any())
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Select Your Seat</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-page-handler="SelectSeat">
+                            <input type="hidden" asp-for="SeatSelectionVM.FlightID" />
+                            <input type="hidden" asp-for="SeatSelectionVM.BoardingID" />
+                            
+                            <div class="row">
+                                @foreach (var seat in Model.SeatSelectionVM.AvailableSeats)
+                                {
+                                    <div class="col-md-3 mb-3">
+                                        <div class="card @(!seat.IsAvailable ? "bg-secondary" : "")">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">@seat.SeatID</h5>
+                                                <p class="card-text">Class: @seat.Class</p>
+                                                @if (seat.IsAvailable)
+                                                {
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" 
+                                                               name="SeatSelectionVM.SelectedSeatID" 
+                                                               value="@seat.SeatID" 
+                                                               id="seat_@seat.SeatID">
+                                                        <label class="form-check-label" for="seat_@seat.SeatID">
+                                                            Select
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Reserved</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-success">Confirm Seat Selection</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    No seats available for this flight.
+                </div>
+            }
+        }
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: info@skywayairlines.com<br>
+                        Phone: 1-800-SKY-WAYS</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">About Us</a></li>
+                        <li><a href="#" class="text-white">Terms & Conditions</a></li>
+                        <li><a href="#" class="text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-2">Facebook</a>
+                        <a href="#" class="text-white me-2">Twitter</a>
+                        <a href="#" class="text-white">Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+@page
+@model Airline.ReportIncident
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Incident - Skyline Airways</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../wwwroot/UnifiedStyle.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">SkyWay Airlines</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="FlightSchedules"> Flight Schedules</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="Routes">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="ReportIncident">Report Incident</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="FlightStatus">Flight Status</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="SeatSelection">Seat Selection</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <h1 class="mb-4">Report an Incident</h1>
+
+    @if (ViewData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewData["Error"]
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                <!-- Flight Information -->
+                <div class="mb-4">
+                    <h4 class="mb-3">Flight Information</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="flightId" class="form-label">Flight ID</label>
+                            <input id="flightId" class="form-control" required
+                                   pattern="[A-Z]{2}[0-9]{3,4}"
+                                   placeholder="e.g., SK101">
+                            <span class="invalid-feedback"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="incidentLocation" class="form-label">Incident Location</label>
+                            <input id="incidentLocation" class="form-control" required
+                                   placeholder="e.g., Airport name or coordinates">
+                            <span class="invalid-feedback"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Incident Details -->
+                <div class="mb-4">
+                    <h4 class="mb-3">Incident Details</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="incidentDateTime" class="form-label">Date and Time</label>
+                            <input id="incidentDateTime" type="datetime-local" class="form-control" required>
+                            <span class="invalid-feedback"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="incidentCause" class="form-label">Cause of Incident</label>
+                            <select id="incidentCause" class="form-select" required>
+                                <option value="">Select cause</option>
+                                <option>Technical Malfunction</option>
+                                <option>Weather Conditions</option>
+                                <option>Human Error</option>
+                                <option>Bird Strike</option>
+                                <option>Security Breach</option>
+                                <option>Other</option>
+                            </select>
+                            <span class="invalid-feedback"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Casualty Information -->
+                <div class="mb-4">
+                    <h4 class="mb-3">Impact Assessment</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="casualtiesCount" class="form-label">Number of Casualties</label>
+                            <input id="casualtiesCount" type="number" class="form-control" required min="0"
+                                   placeholder="Enter number">
+                            <span class="invalid-feedback"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="survivorsCount" class="form-label">Number of Survivors</label>
+                            <input id="survivorsCount" type="number" class="form-control" required min="0"
+                                   placeholder="Enter number">
+                            <span class="invalid-feedback"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Penalties -->
+                <div class="mb-4">
+                    <h4 class="mb-3">Regulatory Information</h4>
+                    <div class="mb-3">
+                        <label for="penalties" class="form-label">Penalties/Actions Taken</label>
+                        <select id="penalties" class="form-select" required>
+                            <option value="">Select penalty type</option>
+                            <option>Financial Penalty</option>
+                            <option>License Suspension</option>
+                            <option>Mandatory Training</option>
+                            <option>Warning Issued</option>
+                            <option>Investigation Pending</option>
+                            <option>No Action Required</option>
+                        </select>
+                        <span class="invalid-feedback"></span>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit Incident Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get form values by ID
+        const flightId = document.getElementById('flightId').value;
+        const incidentLocation = document.getElementById('incidentLocation').value;
+        const incidentDateTime = document.getElementById('incidentDateTime').value;
+        const incidentCause = document.getElementById('incidentCause').value;
+        const casualtiesCount = document.getElementById('casualtiesCount').value;
+        const survivorsCount = document.getElementById('survivorsCount').value;
+        const penalties = document.getElementById('penalties').value;
+
+        // Use the values as needed
+        console.log({
+            flightId,
+            incidentLocation,
+            incidentDateTime,
+            incidentCause,
+            casualtiesCount,
+            survivorsCount,
+            penalties
+        });
+
+        // AJAX request to call the OnGetSendReport method
+        fetch(`?handler=SendReport&flight_id=${flightId}&incident_location=${incidentLocation}&date=${incidentDateTime}&casualities_count=${casualtiesCount}&survivors_count=${survivorsCount}&incident_cause=${incidentCause}&penalties=${penalties}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Report submitted successfully');
+            } else {
+                alert('Failed to submit report');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the report');
+        });
+    });
+</script>
+<!-- Keep your existing footer -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+
+<footer class="bg-dark text-white py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Contact Us</h5>
+                <p>Email: info@skywayeairlines.com<br>
+                    Phone: 1-800-SKY-WAYS</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">About Us</a></li>
+                    <li><a href="#" class="text-white">Terms & Conditions</a></li>
+                    <li><a href="#" class="text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Follow Us</h5>
+                <div class="social-links">
+                    <a href="#" class="text-white me-2">Facebook</a>
+                    <a href="#" class="text-white me-2">Twitter</a>
+                    <a href="#" class="text-white">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -69,7 +69,7 @@ public class AccountController : Controller
             try
             {
                 conn.Open();
-                string query = "SELECT staff_id FROM flight_attendant WHERE email = @Email AND password = @Password";
+                string query = "SELECT emp_id FROM employee WHERE contact_info = @Email AND password = @Password";
                 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
@@ -80,7 +80,7 @@ public class AccountController : Controller
                     
                     if (result != null)
                     {
-                        return RedirectToAction("Dashboard", "FlightAttendant", new { id = result.ToString() });
+                        return RedirectToPage("/FlightSchedules");
                     }
                 }
             }
@@ -89,7 +89,7 @@ public class AccountController : Controller
                 TempData["ErrorMessage"] = "Login failed: " + ex.Message;
             }
         }
-        
+
         TempData["ErrorMessage"] = "Invalid email or password";
         return RedirectToAction("FlightAttendantLogin");
     }
@@ -102,7 +102,7 @@ public class AccountController : Controller
             try
             {
                 conn.Open();
-                string query = "SELECT admin_id FROM admin WHERE email = @Email AND password = @Password";
+                string query = "SELECT emp_id FROM employee WHERE contact_info = @Email AND password = @Password";
                 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
@@ -113,7 +113,7 @@ public class AccountController : Controller
                     
                     if (result != null)
                     {
-                        return RedirectToAction("Dashboard", "Admin", new { id = result.ToString() });
+                        return RedirectToPage("/ScheduleFlights");
                     }
                 }
             }

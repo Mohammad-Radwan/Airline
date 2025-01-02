@@ -1,0 +1,214 @@
+@page
+@model Airline.Pages.FlightSchedules;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "_Layout";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Schedules - SkyWay Airlines</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../wwwroot/UnifiedStyle.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">SkyWay Airlines</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="FlightSchedules"> Flight Schedules</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="Routes">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="ReportIncident">Report Incident</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="FlightStatus">Flight Status</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"asp-area="" asp-page="SeatSelection">Seat Selection</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <h1 class="mb-4">Flight Schedules</h1>
+
+    @if (ViewData["Error"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewData["Error"]
+        </div>
+    }
+
+    <!-- Search Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form id="scheduleSearchForm" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">From</label>
+                    <select class="form-select" id="fromAirport" name="fromAirport" required>
+                        <option value="">Select Airport</option>
+                        @if (Model.Airports != null && Model.Airports.Any())
+                        {
+                            @foreach (var airport in Model.Airports)
+                            {
+                                <option value="@airport">@airport.AirportName</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">To</label>
+                    <select class="form-select" id="toAirport" name="toAirport" required>
+                        <option value="">Select Airport</option>
+                        @if (Model.Airports != null && Model.Airports.Any())
+                        {
+                            @foreach (var airport in Model.Airports)
+                            {
+                                
+                                <option value="@airport">@airport.AirportName</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-control" id="flightDate" name="date" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Time (UTC)</label>
+                    <input type="time" class="form-control" id="flightTime" name="time" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">UTC Offset</label>
+                    <select class="form-control" id="utcOffset" name="utcOffset" required>
+                        <option value="-12:00">UTC -12:00</option>
+                        <option value="-11:00">UTC -11:00</option>
+                        <option value="-10:00">UTC -10:00</option>
+                        <option value="-09:00">UTC -09:00</option>
+                        <option value="-08:00">UTC -08:00</option>
+                        <option value="-07:00">UTC -07:00</option>
+                        <option value="-06:00">UTC -06:00</option>
+                        <option value="-05:00">UTC -05:00</option>
+                        <option value="-04:00">UTC -04:00</option>
+                        <option value="-03:00">UTC -03:00</option>
+                        <option value="-02:00">UTC -02:00</option>
+                        <option value="-01:00">UTC -01:00</option>
+                        <option value="00:00">UTC ±00:00</option> <!-- Default is UTC -->
+                        <option value="01:00">UTC +01:00</option>
+                        <option value="02:00">UTC +02:00</option>
+                        <option value="03:00">UTC +03:00</option>
+                        <option value="04:00">UTC +04:00</option>
+                        <option value="05:00">UTC +05:00</option>
+                        <option value="06:00">UTC +06:00</option>
+                        <option value="07:00">UTC +07:00</option>
+                        <option value="08:00">UTC +08:00</option>
+                        <option value="09:00">UTC +09:00</option>
+                        <option value="10:00">UTC +10:00</option>
+                        <option value="11:00">UTC +11:00</option>
+                        <option value="12:00">UTC +12:00</option>
+                    </select>
+                </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search Flights</button>
+            </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('scheduleSearchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const fromAirport = document.getElementById('fromAirport').value;
+            const toAirport = document.getElementById('toAirport').value;
+            const flightDate = document.getElementById('flightDate').value;
+            const flightTime = document.getElementById('flightTime').value;
+            const utcOffset = document.getElementById('utcOffset').value;
+
+            try {
+                // Make the API call to the server using GET with query parameters
+                const response = await fetch(`?handler=FlightSchedules&fromAirport=${encodeURIComponent(fromAirport)}&toAirport=${encodeURIComponent(toAirport)}&flightDate=${encodeURIComponent(flightDate)}&flightTime=${encodeURIComponent(flightTime)}&utcOffset=${encodeURIComponent(utcOffset)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const schedules = await response.json();
+
+                // Update the table with the results
+                const tbody = document.getElementById('scheduleTableBody');
+                tbody.innerHTML = '';
+
+                schedules.forEach(flight => {
+                    tbody.innerHTML += `
+                <tr>
+                    <td>${flight.flightNumber}</td>
+                    <td>${flight.departureAirport}</td>
+                    <td>${flight.arrivalAirport}</td>
+                    <td>${flight.departureTime}</td>
+                    <td>${flight.arrivalTime}</td>
+                    <td>On Time</td>
+                </tr>
+            `;
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to fetch flight schedules');
+            }
+        });
+    </script>
+
+
+
+    <!-- Flight Schedule Table -->
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Flight No.</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody id="scheduleTableBody">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Footer (same as index.html) -->
+<footer class="bg-dark text-white py-4 mt-5">
+    <!-- Same footer content as index.html -->
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

@@ -1,0 +1,162 @@
+@page
+@model Airline.Pages.Routes
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routes & Aircraft - SkyWay Airways</title>
+    <link href="../wwwroot/UnifiedStyle.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">SkyWay Airlines</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="FlightSchedules"> Flight Schedules</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="Routes">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="ReportIncident">Report Incident</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="FlightStatus">Flight Status</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"asp-area="" asp-page="SeatSelection">Seat Selection</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <h1 class="mb-4">Routes and Aircraft Information</h1>
+
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-hover">
+            <thead class="sticky-top bg-white">
+            <tr>
+                <th>Route ID</th>
+                <th>Departure - Arrival</th>
+                <th>Distance (km)</th>
+                <th>Duration (hours)</th>
+                <th>Base Price ($)</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model.RoutesList != null && Model.RoutesList.Any())
+            {
+                @foreach (var route in Model.RoutesList)
+                {
+                    <tr>
+                        <td>@route.RouteID</td>
+                        <td>@route.DepartureAirport - @route.ArrivalAirport</td>
+                        <td>@route.Distance</td>
+                        <td>@route.Duration</td>
+                        <td>@route.BasePrice</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No routes available</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+    <!-- Aircraft Fleet Section -->
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center">
+            <i class="bi bi-airplane-engines me-2"></i>
+            <h2 class="h5 mb-0">Aircraft Fleet</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Aircraft ID</th>
+                        <th>Model</th>
+                        <th>Manufacturer</th>
+                        <th>Capacity</th>
+                        <th>Join Date</th>
+                        <th>Speed (km/h)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model.AircraftList != null && Model.AircraftList.Any())
+                    {
+                        @foreach (var aircraft in Model.AircraftList)
+                        {
+                            <tr>
+                                <td>@aircraft.AircraftID</td>
+                                <td>@aircraft.Model</td>
+                                <td>@aircraft.Manufacturer</td>
+                                <td>@aircraft.Capacity</td>
+                                <td>@aircraft.JoinDate</td>
+                                <td>@aircraft.Speed</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center">No aircraft available</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5><i class="bi bi-envelope me-2"></i>Contact Us</h5>
+                <p>Email: info@skywayairlines.com<br>Phone: 1-800-SKY-WAY</p>
+            </div>
+            <div class="col-md-4">
+                <h5><i class="bi bi-link-45deg me-2"></i>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">About Us</a></li>
+                    <li><a href="#" class="text-white">Terms & Conditions</a></li>
+                    <li><a href="#" class="text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5><i class="bi bi-people me-2"></i>Follow Us</h5>
+                <div class="social-links">
+                    <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
