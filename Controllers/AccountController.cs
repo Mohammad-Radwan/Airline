@@ -7,6 +7,14 @@ public class AccountController : Controller
 {
     private string connStr = "server=localhost;port=3306;user=root;password=mradwan#1MySql;database=airline;";
 
+    
+    private readonly AccountService _accountService;
+
+    public AccountController()
+    {
+        _accountService = new AccountService();
+    }
+
     public IActionResult AcountLogin()
     {
         return View();
@@ -64,69 +72,45 @@ public class AccountController : Controller
     [HttpPost]
     public IActionResult AuthenticateFlightAttendant(string email, string password)
     {
-        using (var conn = new MySqlConnection(connStr))
+        try
         {
-            try
+            var empId = _accountService.AuthenticateEmployee(email, password);
+            if (empId != null)
             {
-                conn.Open();
-                string query = "SELECT emp_id FROM employee WHERE contact_info = @Email AND password = @Password";
-                
-                using (var cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", password);
-
-                    var result = cmd.ExecuteScalar();
-                    
-                    if (result != null)
-                    {
-                        return RedirectToPage("/FlightSchedules");
-                    }
-                }
+                return RedirectToPage("/FlightSchedules");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = "Login failed: " + ex.Message;
-            }
+            
+            TempData["ErrorMessage"] = "Invalid email or password";
+            return RedirectToAction("FlightAttendantLogin");
         }
-
-        TempData["ErrorMessage"] = "Invalid email or password";
-        return RedirectToAction("FlightAttendantLogin");
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = "Login failed: " + ex.Message;
+            return RedirectToAction("FlightAttendantLogin");
+        }
     }
 
     [HttpPost]
     public IActionResult AuthenticateAdmin(string email, string password)
     {
-        using (var conn = new MySqlConnection(connStr))
+        try
         {
-            try
+            var empId = _accountService.AuthenticateEmployee(email, password);
+            if (empId != null)
             {
-                conn.Open();
-                string query = "SELECT emp_id FROM employee WHERE contact_info = @Email AND password = @Password";
-                
-                using (var cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", password);
-
-                    var result = cmd.ExecuteScalar();
-                    
-                    if (result != null)
-                    {
-                        return RedirectToPage("/ScheduleFlights");
-                    }
-                }
+                return RedirectToPage("/ScheduleFlights");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = "Login failed: " + ex.Message;
-            }
+            
+            TempData["ErrorMessage"] = "Invalid email or password";
+            return RedirectToAction("AdminLogin");
         }
-        
-        TempData["ErrorMessage"] = "Invalid email or password";
-        return RedirectToAction("AdminLogin");
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = "Login failed: " + ex.Message;
+            return RedirectToAction("AdminLogin");
+        }
     }
-    
+
     public IActionResult RegisterPassenger()
     {
         return View();
