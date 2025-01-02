@@ -40,11 +40,6 @@ public class PassengerController : Controller
             }
         }
 
-        if (passenger == null)
-        {
-            return NotFound(); // Return a 404 if no passenger is found
-        }
-
 
         return View(passenger);
     }
