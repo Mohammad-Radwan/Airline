@@ -1,0 +1,28 @@
+﻿@{
+ViewData["Title"] = "AcountLogin";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Select User Type</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        <a href="@Url.Action("PassengerLogin", "Account")" class="btn btn-lg btn-outline-primary">
+                            Passenger
+                        </a>
+                        <a href="@Url.Action("FlightAttendantLogin", "Account")" class="btn btn-lg btn-outline-primary">
+                            Flight Attendant
+                        </a>
+                        <a href="@Url.Action("AdminLogin", "Account")" class="btn btn-lg btn-outline-primary">
+                            Admin
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

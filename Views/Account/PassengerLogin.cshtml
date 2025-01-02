@@ -1,0 +1,46 @@
+﻿@{
+ViewData["Title"] = "Passenger Login";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Passenger Login</h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                    }
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                    }
+                    <form method="post" action="@Url.Action("AuthenticatePassenger", "Account")">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                            <a href="@Url.Action("Login", "Account")" class="btn btn-outline-secondary">Back</a>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Don't have an account? <a href="@Url.Action("RegisterPassenger", "Account")">Register</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
